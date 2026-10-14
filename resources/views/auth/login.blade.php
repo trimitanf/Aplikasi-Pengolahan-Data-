@@ -16,37 +16,37 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="min-h-full font-sans antialiased text-slate-800 bg-gradient-to-br from-[#f0f5fa] via-[#f7faf8] to-[#edf6f2] flex items-center justify-center p-4 sm:p-6 lg:p-10 relative overflow-x-hidden selection:bg-[#003B7A] selection:text-white" x-data="{ showHelp: false }">
+<body class="min-h-full font-sans antialiased text-slate-800 bg-linear-to-br from-[#f0f5fa] via-[#f7faf8] to-[#edf6f2] flex items-center justify-center p-4 sm:p-6 lg:p-10 relative overflow-x-hidden selection:bg-[#003B7A] selection:text-white" x-data="{ showHelp: false }">
 
     <!-- Soft Professional Ambient Gradient Blobs (BPOM Blue & Green Palette) -->
     <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
         <!-- BPOM Deep Navy/Blue Glow (Top-Left) -->
-        <div class="absolute -top-32 -left-32 w-[540px] h-[540px] bg-gradient-to-br from-[#003B7A]/15 via-blue-200/25 to-transparent rounded-full blur-3xl"></div>
+        <div class="absolute -top-32 -left-32 w-135 h-135 bg-linear-to-br from-[#003B7A]/15 via-blue-200/25 to-transparent rounded-full blur-3xl"></div>
         <!-- BPOM Emerald Green Glow (Bottom-Right) -->
-        <div class="absolute -bottom-32 -right-32 w-[560px] h-[560px] bg-gradient-to-tl from-[#008D43]/15 via-emerald-100/30 to-transparent rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-32 -right-32 w-140 h-140 bg-linear-to-tl from-[#008D43]/15 via-emerald-100/30 to-transparent rounded-full blur-3xl"></div>
         <!-- Soft Ambient Center Aura -->
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[600px] bg-gradient-to-r from-sky-100/25 via-teal-50/20 to-emerald-100/25 rounded-full blur-3xl"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-212.5 h-150 bg-linear-to-r from-sky-100/25 via-teal-50/20 to-emerald-100/25 rounded-full blur-3xl"></div>
     </div>
 
     <!-- Centered Floating Rounded Card -->
     <div class="relative z-10 w-full max-w-4xl bg-white rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,59,122,0.08)] border border-slate-100/90 overflow-hidden flex flex-col md:flex-row">
 
         <!-- Left Column: Branding, Statement, and Trust Pills -->
-        <div class="w-full md:w-1/2 p-8 sm:p-10 lg:p-12 flex flex-col justify-between relative overflow-hidden bg-gradient-to-b from-white via-[#f9fbfb] to-[#edf6f2]/40">
+        <div class="w-full md:w-1/2 p-8 sm:p-10 lg:p-12 flex flex-col justify-between relative overflow-hidden bg-linear-to-b from-white via-[#f9fbfb] to-[#edf6f2]/40">
             <!-- Subtle organic ambient curve with BPOM tones -->
-            <div class="absolute top-0 right-0 w-72 h-72 bg-gradient-to-br from-[#003B7A]/5 via-[#008D43]/10 to-transparent rounded-full blur-2xl pointer-events-none -mr-20 -mt-20"></div>
+            <div class="absolute top-0 right-0 w-72 h-72 bg-linear-to-br from-[#003B7A]/5 via-[#008D43]/10 to-transparent rounded-full blur-2xl pointer-events-none -mr-20 -mt-20"></div>
 
             <div class="relative z-10">
                 <!-- Top Brand Logo (Frameless, Larger, Clear) & Institution Name -->
                 <div class="flex items-center gap-3.5 sm:gap-4">
                     @if (file_exists(public_path('assets/logo-bpom.jpg')))
-                        <img src="{{ asset('assets/logo-bpom.jpg') }}" alt="Logo BPOM" class="h-16 sm:h-[68px] w-auto object-contain shrink-0">
+                        <img src="{{ asset('assets/logo-bpom.jpg') }}" alt="Logo BPOM" class="h-16 sm:h-17 w-auto object-contain shrink-0">
                     @elseif (file_exists(public_path('assets/logo-bpom.jpeg')))
-                        <img src="{{ asset('assets/logo-bpom.jpeg') }}" alt="Logo BPOM" class="h-16 sm:h-[68px] w-auto object-contain shrink-0">
+                        <img src="{{ asset('assets/logo-bpom.jpeg') }}" alt="Logo BPOM" class="h-16 sm:h-17 w-auto object-contain shrink-0">
                     @elseif (file_exists(public_path('assets/BADAN_POM.png')))
-                        <img src="{{ asset('assets/BADAN_POM.png') }}" alt="Logo BPOM" class="h-16 sm:h-[68px] w-auto object-contain shrink-0">
+                        <img src="{{ asset('assets/BADAN_POM.png') }}" alt="Logo BPOM" class="h-16 sm:h-17 w-auto object-contain shrink-0">
                     @else
-                        <div class="h-16 sm:h-[68px] w-16 rounded-2xl bg-[#003B7A] text-white flex items-center justify-center font-bold text-lg tracking-wider shadow-sm">
+                        <div class="h-16 sm:h-17 w-16 rounded-2xl bg-[#003B7A] text-white flex items-center justify-center font-bold text-lg tracking-wider shadow-sm">
                             BPOM
                         </div>
                     @endif
@@ -67,7 +67,7 @@
                 <div class="mt-10 sm:mt-12">
                     <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-[1.18]">
                         Pengolahan Data Iklan<br>
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#003B7A] via-[#0C589C] to-[#008D43]">Direktorat Pengawasan OT SK</span>
+                        <span class="text-transparent bg-clip-text bg-linear-to-r from-[#003B7A] via-[#0C589C] to-[#008D43]">Direktorat Pengawasan OT SK</span>
                     </h1>
                     <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mt-4 max-w-sm">
                         Sistem Informasi Pengolahan Data Iklan real-time dengan standardisasi kode numerik dan rekap capaian IKU Obat Bahan Alam dan Suplemen Kesehatan.
@@ -225,7 +225,7 @@
                     <div class="pt-2">
                         <button
                             type="submit"
-                            class="w-full py-3 px-4 rounded-xl text-white font-semibold text-sm bg-gradient-to-r from-[#003B7A] via-[#0A4F99] to-[#007E3D] hover:from-[#002f61] hover:via-[#08417e] hover:to-[#006933] shadow-md shadow-[#003B7A]/20 active:scale-[0.99] transition flex items-center justify-center gap-2.5 cursor-pointer"
+                            class="w-full py-3 px-4 rounded-xl text-white font-semibold text-sm bg-linear-to-r from-[#003B7A] via-[#0A4F99] to-[#007E3D] hover:from-[#002f61] hover:via-[#08417e] hover:to-[#006933] shadow-md shadow-[#003B7A]/20 active:scale-[0.99] transition flex items-center justify-center gap-2.5 cursor-pointer"
                         >
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
