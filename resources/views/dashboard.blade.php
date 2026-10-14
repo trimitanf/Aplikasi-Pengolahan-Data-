@@ -386,7 +386,7 @@
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
                 <div>
                     <h3 class="text-base font-extrabold text-gray-900">
-                        Distribusi Pengawasan: Memenuhi Ketentuan (MK) vs Pelanggaran (TMK)
+                        Distribusi Pengawasan: Memenuhi Ketentuan (MK) & Pelanggaran (TMK)
                     </h3>
                     <p class="text-xs text-gray-500">Pilih dimensi untuk melihat perbandingan komposisi kepatuhan iklan</p>
                 </div>
