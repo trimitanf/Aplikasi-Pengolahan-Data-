@@ -1,0 +1,28 @@
+:root {
+    /* Brand Colors */
+    --brand-navy: #0B3A75;
+    --brand-blue: #1565C0;
+    --brand-green: #2E9E4F;
+
+    /* Tints */
+    --brand-blue-soft: #E8F0FB;
+    --brand-green-soft: #E7F5EC;
+
+    /* Neutrals */
+    --bg: #F5F7FA;
+    --surface: #FFFFFF;
+    --border: #E3E8EF;
+    --text: #1F2937;
+    --muted: #6B7280;
+
+    /* Status & Alerts */
+    --danger: #D64545;
+    --warning: #F2A900;
+    --manual-soft: #FDE8E8;
+    --manual-border: #F8B4B4;
+
+    /* Gradients */
+    --grad-brand: linear-gradient(135deg, var(--brand-navy) 0%, var(--brand-blue) 100%);
+    --grad-accent: linear-gradient(135deg, var(--brand-blue) 0%, var(--brand-green) 100%);
+    --grad-soft: linear-gradient(180deg, #FFFFFF 0%, #F3F7FC 100%);
+}

@@ -1,0 +1,34 @@
+@import '@fontsource/poppins/400.css';
+@import '@fontsource/poppins/500.css';
+@import '@fontsource/poppins/600.css';
+@import '@fontsource/poppins/700.css';
+@import './theme.css';
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../views/**/*.blade.php';
+
+@theme {
+    --font-sans: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    
+    --color-brand-navy: #0B3A75;
+    --color-brand-blue: #1565C0;
+    --color-brand-green: #2E9E4F;
+    --color-brand-blue-soft: #E8F0FB;
+    --color-brand-green-soft: #E7F5EC;
+    --color-bg-main: #F5F7FA;
+    --color-surface: #FFFFFF;
+    --color-border-main: #E3E8EF;
+    --color-text-main: #1F2937;
+    --color-muted: #6B7280;
+    --color-danger: #D64545;
+    --color-warning: #F2A900;
+    --color-manual-soft: #FDE8E8;
+}
+
+body {
+    font-family: var(--font-sans);
+    background-color: var(--bg);
+    color: var(--text);
+}
