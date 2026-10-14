@@ -101,7 +101,7 @@ class DatasetService
                     $issues[] = [
                         'nomor_baris' => null,
                         'kolom' => 'HEADER PERIODE MULAI',
-                        'tingkat' => 'error',
+                        'tingkat' => 'warning',
                         'pesan' => "Periode mulai pada header file ('{$header['periode_mulai']}') berbeda dari bulan/tahun upload ({$dataset->nama_bulan} {$dataset->periode_tahun}).",
                     ];
                 }
@@ -133,14 +133,14 @@ class DatasetService
         foreach ($rows as $index => $row) {
             $nomorBaris = $index + 1;
 
-            // Cek UPT
+            // Cek UPT (Catatan info / warning, jangan tolak dataset)
             $siptUpt = $row['upt'] ?? '';
             $uptMatched = $this->findMatchingUpt($siptUpt, $uptList);
             if (! $uptMatched) {
                 $issues[] = [
                     'nomor_baris' => $nomorBaris,
                     'kolom' => 'UPT',
-                    'tingkat' => 'error',
+                    'tingkat' => 'warning',
                     'pesan' => "Unit Pelaksana Teknis '{$siptUpt}' tidak dikenali dalam Master 83 UPT.",
                 ];
             }
@@ -158,7 +158,7 @@ class DatasetService
                 $issues[] = [
                     'nomor_baris' => $nomorBaris,
                     'kolom' => 'JENIS PRODUK',
-                    'tingkat' => 'error',
+                    'tingkat' => 'warning',
                     'pesan' => "Jenis Produk '{$row['jenis_produk']}' tidak selaras dengan komoditi dataset ({$dataset->komoditi}).",
                 ];
             }
@@ -171,8 +171,8 @@ class DatasetService
                     $issues[] = [
                         'nomor_baris' => $nomorBaris,
                         'kolom' => 'TANGGAL PENGAMBILAN IKLAN',
-                        'tingkat' => 'error',
-                        'pesan' => "Format tanggal pengambilan iklan '{$tglPengambilanStr}' tidak valid.",
+                        'tingkat' => 'warning',
+                        'pesan' => "Format tanggal pengambilan iklan '{$tglPengambilanStr}' berbeda dari format baku SIPT.",
                     ];
                 } else {
                     // Warning jika tanggal berada di luar bulan/tahun upload
@@ -215,10 +215,13 @@ class DatasetService
             }
         }
 
-        // Tentukan apakah ada error fatal yang menolak dataset
-        $hasError = collect($issues)->contains('tingkat', 'error');
+        // Fatal error hanya jika header komoditi tidak sesuai sama sekali atau baris 0
+        $hasFatalError = collect($issues)->contains(function ($issue) {
+            return in_array($issue['kolom'] ?? '', ['HEADER KOMODITI', 'KOMODITI/PERIODE', 'DATA'])
+                && ($issue['tingkat'] ?? '') === 'error';
+        });
 
-        DB::transaction(function () use ($dataset, $issues, $rows, $hasError, $menungguEvaluasiCount) {
+        DB::transaction(function () use ($dataset, $issues, $rows, $hasFatalError, $menungguEvaluasiCount) {
             // Hapus issues lama jika ada
             $dataset->issues()->delete();
 
@@ -227,39 +230,33 @@ class DatasetService
                 $dataset->issues()->create($issue);
             }
 
-            if ($hasError) {
-                $dataset->update([
-                    'status' => 'Ditolak',
-                    'jumlah_baris' => count($rows),
-                    'jumlah_menunggu_evaluasi' => $menungguEvaluasiCount,
-                ]);
-            } else {
-                // Simpan baris ke data_mentah
-                $dataset->dataMentah()->delete();
+            // SELALU SIMPAN SELURUH BARIS KE data_mentah
+            $dataset->dataMentah()->delete();
 
-                $chunk = [];
-                foreach ($rows as $index => $row) {
-                    $row['dataset_id'] = $dataset->id;
-                    $row['nomor_baris'] = $index + 1;
-                    $row['created_at'] = now();
-                    $row['updated_at'] = now();
-                    $chunk[] = $row;
+            $chunk = [];
+            foreach ($rows as $index => $row) {
+                $row['dataset_id'] = $dataset->id;
+                $row['nomor_baris'] = $index + 1;
+                $row['created_at'] = now();
+                $row['updated_at'] = now();
+                $chunk[] = $row;
 
-                    if (count($chunk) >= 500) {
-                        DataMentah::insert($chunk);
-                        $chunk = [];
-                    }
-                }
-                if (! empty($chunk)) {
+                if (count($chunk) >= 500) {
                     DataMentah::insert($chunk);
+                    $chunk = [];
                 }
-
-                $dataset->update([
-                    'status' => 'Valid',
-                    'jumlah_baris' => count($rows),
-                    'jumlah_menunggu_evaluasi' => $menungguEvaluasiCount,
-                ]);
             }
+            if (! empty($chunk)) {
+                DataMentah::insert($chunk);
+            }
+
+            $status = $hasFatalError ? 'Ditolak' : 'Valid';
+
+            $dataset->update([
+                'status' => $status,
+                'jumlah_baris' => count($rows),
+                'jumlah_menunggu_evaluasi' => $menungguEvaluasiCount,
+            ]);
         });
     }
 

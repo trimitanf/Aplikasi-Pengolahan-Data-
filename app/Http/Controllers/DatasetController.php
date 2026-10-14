@@ -72,31 +72,86 @@ class DatasetController extends Controller
             ->with('status', "File '{$namaFileAsli}' berhasil diunggah dan sedang diproses oleh sistem.");
     }
 
-    public function show(Dataset $dataset, Request $request): View
+    public function show(Dataset $dataset, Request $request): View|RedirectResponse
     {
-        $issueQuery = $dataset->issues();
+        // 1. Cek jika pengguna memilih filter Tahun / Komoditi / Bulan yang mengarah ke Dataset lain
+        $filterTahun = $request->filled('tahun') ? $request->integer('tahun') : $dataset->periode_tahun;
+        $filterKomoditi = $request->filled('komoditi') ? $request->query('komoditi') : $dataset->komoditi;
+        $filterBulan = $request->filled('bulan') ? $request->integer('bulan') : $dataset->periode_bulan;
 
+        if (
+            ($request->has('tahun') || $request->has('komoditi') || $request->has('bulan')) &&
+            ($filterTahun !== $dataset->periode_tahun || $filterKomoditi !== $dataset->komoditi || $filterBulan !== $dataset->periode_bulan)
+        ) {
+            $matchedDataset = Dataset::where('komoditi', $filterKomoditi)
+                ->where('periode_tahun', $filterTahun)
+                ->where('periode_bulan', $filterBulan)
+                ->latest('id')
+                ->first();
+
+            if ($matchedDataset && $matchedDataset->id !== $dataset->id) {
+                return redirect()->route('dataset.show', [
+                    'dataset' => $matchedDataset->id,
+                    'cari' => $request->query('cari'),
+                ]);
+            }
+        }
+
+        // 2. Query Data Mentah (26 kolom SIPT)
+        $rawQuery = $dataset->dataMentah();
+
+        if ($request->filled('cari')) {
+            $keyword = '%' . trim($request->query('cari')) . '%';
+            $rawQuery->where(function ($q) use ($keyword) {
+                $q->where('upt', 'like', $keyword)
+                    ->orWhere('nama_produk', 'like', $keyword)
+                    ->orWhere('nomor_izin_edar', 'like', $keyword)
+                    ->orWhere('khasiat_indikasi', 'like', $keyword)
+                    ->orWhere('pendaftar', 'like', $keyword)
+                    ->orWhere('media_iklan', 'like', $keyword)
+                    ->orWhere('kesimpulan_upt', 'like', $keyword)
+                    ->orWhere('kesimpulan_pusat', 'like', $keyword);
+            });
+        }
+
+        $rows = $rawQuery->orderBy('nomor_baris', 'asc')->paginate(50)->withQueryString();
+
+        // 3. Issue pemeriksaan (Non-blocking catatan validasi)
+        $issueQuery = $dataset->issues();
         if ($request->filled('tingkat')) {
             $issueQuery->where('tingkat', $request->query('tingkat'));
         }
-
-        $issues = $issueQuery->orderBy('nomor_baris', 'asc')->paginate(50)->withQueryString();
+        $issues = $issueQuery->orderBy('nomor_baris', 'asc')->get();
 
         $errorCount = $dataset->issues()->where('tingkat', 'error')->count();
         $warningCount = $dataset->issues()->where('tingkat', 'warning')->count();
 
-        // Tentukan stepper state (1: Unggah, 2: Validasi, 3: Data Mentah, 4: Konversi, 5: Final, 6: Rekap)
+        // Stepper: jika data mentah sudah masuk, langkah aktif adalah Step 3 (Data Mentah)
         $activeStep = match ($dataset->status) {
             'Diunggah', 'Diproses' => 2,
-            'Ditolak', 'Gagal' => 2,
-            'Valid' => 3,
             'Terstandardisasi' => 4,
             'Final' => 5,
-            default => 2,
+            default => 3,
         };
+
+        // Option list untuk dropdown filter
+        $availableYears = Dataset::select('periode_tahun')->distinct()->orderBy('periode_tahun', 'desc')->pluck('periode_tahun')->toArray();
+        if (! in_array($dataset->periode_tahun, $availableYears)) {
+            $availableYears[] = $dataset->periode_tahun;
+        }
+        if (! in_array(now()->year, $availableYears)) {
+            $availableYears[] = now()->year;
+        }
+        rsort($availableYears);
 
         return view('dataset.show', [
             'dataset' => $dataset,
+            'rows' => $rows,
+            'cari' => $request->query('cari'),
+            'filterTahun' => $filterTahun,
+            'filterKomoditi' => $filterKomoditi,
+            'filterBulan' => $filterBulan,
+            'availableYears' => $availableYears,
             'issues' => $issues,
             'errorCount' => $errorCount,
             'warningCount' => $warningCount,

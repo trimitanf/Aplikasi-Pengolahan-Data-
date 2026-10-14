@@ -360,4 +360,62 @@ HTML;
         $response->assertSessionHas('error');
         $this->assertDatabaseHas('datasets', ['id' => $dataset->id]);
     }
+
+    public function test_halaman_show_dataset_langsung_menampilkan_data_mentah_26_kolom_dan_filter(): void
+    {
+        $content = $this->generateSampleHtmlSipt();
+        Storage::disk('private')->put('datasets/view_direct_raw.xls', $content);
+
+        $dataset = Dataset::create([
+            'nama_file_asli' => 'view_direct_raw.xls',
+            'path_file' => 'private/datasets/view_direct_raw.xls',
+            'komoditi' => 'OT',
+            'periode_tahun' => 2026,
+            'periode_bulan' => 1,
+            'status' => 'Diunggah',
+        ]);
+
+        app(DatasetService::class)->process($dataset);
+
+        $response = $this->actingAs($this->evaluator)->get("/dataset/{$dataset->id}");
+
+        $response->assertStatus(200);
+        $response->assertSee('Data Mentah Hasil Penarikan SIPT (26 Kolom Asli)');
+        $response->assertSee('Minyak Herbal Alami');
+        $response->assertSee('TR123456781');
+        $response->assertSee('Shopee');
+        $response->assertSee('name="komoditi"', false);
+        $response->assertSee('name="tahun"', false);
+        $response->assertSee('name="bulan"', false);
+        $response->assertSee('name="cari"', false);
+    }
+
+    public function test_filter_halaman_show_dapat_berpindah_ke_dataset_sesuai_komoditi_tahun_bulan(): void
+    {
+        $datasetOT = Dataset::create([
+            'nama_file_asli' => 'data_ot.xls',
+            'path_file' => 'private/datasets/data_ot.xls',
+            'komoditi' => 'OT',
+            'periode_tahun' => 2026,
+            'periode_bulan' => 1,
+            'status' => 'Valid',
+            'jumlah_baris' => 10,
+        ]);
+
+        $datasetSK = Dataset::create([
+            'nama_file_asli' => 'data_sk.xls',
+            'path_file' => 'private/datasets/data_sk.xls',
+            'komoditi' => 'SK',
+            'periode_tahun' => 2026,
+            'periode_bulan' => 2,
+            'status' => 'Valid',
+            'jumlah_baris' => 15,
+        ]);
+
+        // Dari dataset OT, filter ke SK bulan 2 tahun 2026
+        $response = $this->actingAs($this->evaluator)->get("/dataset/{$datasetOT->id}?komoditi=SK&tahun=2026&bulan=2");
+
+        $response->assertRedirect(route('dataset.show', ['dataset' => $datasetSK->id]));
+    }
 }
+
