@@ -38,26 +38,26 @@
 
             <div class="relative z-10">
                 <!-- Top Brand Logo (Frameless, Larger, Clear) & Institution Name -->
-                <div class="flex items-center gap-4">
+                <div class="flex items-center gap-3.5 sm:gap-4">
                     @if (file_exists(public_path('assets/logo-bpom.jpg')))
-                        <img src="{{ asset('assets/logo-bpom.jpg') }}" alt="Logo BPOM" class="h-20 sm:h-[88px] w-auto object-contain shrink-0">
+                        <img src="{{ asset('assets/logo-bpom.jpg') }}" alt="Logo BPOM" class="h-16 sm:h-[76px] w-auto object-contain shrink-0">
                     @elseif (file_exists(public_path('assets/logo-bpom.jpeg')))
-                        <img src="{{ asset('assets/logo-bpom.jpeg') }}" alt="Logo BPOM" class="h-20 sm:h-[88px] w-auto object-contain shrink-0">
+                        <img src="{{ asset('assets/logo-bpom.jpeg') }}" alt="Logo BPOM" class="h-16 sm:h-[76px] w-auto object-contain shrink-0">
                     @elseif (file_exists(public_path('assets/BADAN_POM.png')))
-                        <img src="{{ asset('assets/BADAN_POM.png') }}" alt="Logo BPOM" class="h-20 sm:h-[88px] w-auto object-contain shrink-0">
+                        <img src="{{ asset('assets/BADAN_POM.png') }}" alt="Logo BPOM" class="h-16 sm:h-[76px] w-auto object-contain shrink-0">
                     @else
-                        <div class="h-20 sm:h-[88px] w-20 rounded-2xl bg-[#003B7A] text-white flex items-center justify-center font-bold text-lg tracking-wider shadow-sm">
+                        <div class="h-16 sm:h-[76px] w-16 rounded-2xl bg-[#003B7A] text-white flex items-center justify-center font-bold text-lg tracking-wider shadow-sm">
                             BPOM
                         </div>
                     @endif
-                    <div class="h-20 sm:h-[88px] flex flex-col justify-between py-0.5">
-                        <div class="text-2xl sm:text-[26px] font-black tracking-tight text-[#0B3462] leading-none">
+                    <div class="h-16 sm:h-[76px] flex flex-col justify-between py-0.5">
+                        <div class="text-xl sm:text-2xl font-black tracking-tight text-[#0B3462] leading-none">
                             BADAN POM
                         </div>
-                        <div class="text-xs sm:text-[12px] font-bold text-[#008D43] uppercase leading-[1.2] tracking-tight">
-                            BADAN PENGAWAS OBAT DAN<br>MAKANAN
+                        <div class="text-[10px] sm:text-[11.5px] font-bold text-[#008D43] uppercase tracking-tight whitespace-nowrap leading-none">
+                            BADAN PENGAWAS OBAT DAN MAKANAN
                         </div>
-                        <div class="text-[10px] sm:text-[11px] font-semibold text-[#5D7189] uppercase tracking-widest leading-none">
+                        <div class="text-[9px] sm:text-[10.5px] font-semibold text-[#5D7189] uppercase tracking-widest whitespace-nowrap leading-none">
                             REPUBLIK INDONESIA
                         </div>
                     </div>
