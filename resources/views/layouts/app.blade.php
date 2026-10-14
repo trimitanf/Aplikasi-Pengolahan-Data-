@@ -28,7 +28,9 @@
         >
             <!-- Logo & Brand Header -->
             <div class="p-6 border-b border-white/15 flex items-center gap-3">
-                @if (file_exists(public_path('assets/BADAN_POM.png')))
+                @if (file_exists(public_path('assets/logo-bpom.jpeg')))
+                    <img src="{{ asset('assets/logo-bpom.jpeg') }}" alt="Logo BPOM" class="h-10 w-auto bg-white/10 p-1 rounded-lg shrink-0 object-contain">
+                @elseif (file_exists(public_path('assets/BADAN_POM.png')))
                     <img src="{{ asset('assets/BADAN_POM.png') }}" alt="Logo BPOM" class="h-10 w-auto bg-white/10 p-1 rounded-lg shrink-0 object-contain">
                 @elseif (file_exists(public_path('images/logo-bpom.png')))
                     <img src="{{ asset('images/logo-bpom.png') }}" alt="Logo BPOM" class="h-10 w-auto bg-white/10 p-1.5 rounded-lg shrink-0">

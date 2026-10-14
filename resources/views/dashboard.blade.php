@@ -530,7 +530,9 @@
             <div class="p-6 space-y-6">
                 <div class="flex items-center justify-between pb-4 border-b border-gray-200">
                     <div class="flex items-center gap-3">
-                        @if (file_exists(public_path('assets/BADAN_POM.png')))
+                        @if (file_exists(public_path('assets/logo-bpom.jpeg')))
+                            <img src="{{ asset('assets/logo-bpom.jpeg') }}" alt="Logo BPOM" class="h-10 w-auto object-contain">
+                        @elseif (file_exists(public_path('assets/BADAN_POM.png')))
                             <img src="{{ asset('assets/BADAN_POM.png') }}" alt="Logo BPOM" class="h-10 w-auto object-contain">
                         @else
                             <div class="w-10 h-10 rounded-xl bg-(--brand-navy) text-white flex items-center justify-center font-bold text-sm">

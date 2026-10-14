@@ -29,7 +29,9 @@
 
             <div class="relative z-10">
                 <div class="flex items-center gap-3.5 mb-10">
-                    @if (file_exists(public_path('assets/BADAN_POM.png')))
+                    @if (file_exists(public_path('assets/logo-bpom.jpeg')))
+                        <img src="{{ asset('assets/logo-bpom.jpeg') }}" alt="Logo BPOM" class="h-12 w-auto bg-white/10 p-1.5 rounded-xl object-contain">
+                    @elseif (file_exists(public_path('assets/BADAN_POM.png')))
                         <img src="{{ asset('assets/BADAN_POM.png') }}" alt="Logo BPOM" class="h-12 w-auto bg-white/10 p-1.5 rounded-xl object-contain">
                     @elseif (file_exists(public_path('images/logo-bpom.png')))
                         <img src="{{ asset('images/logo-bpom.png') }}" alt="Logo BPOM" class="h-12 w-auto bg-white/10 p-2 rounded-xl">
@@ -71,7 +73,9 @@
             <div class="w-full max-w-md space-y-8">
                 <!-- Mobile Logo Header -->
                 <div class="md:hidden text-center space-y-2">
-                    @if (file_exists(public_path('assets/BADAN_POM.png')))
+                    @if (file_exists(public_path('assets/logo-bpom.jpeg')))
+                        <img src="{{ asset('assets/logo-bpom.jpeg') }}" alt="Logo BPOM" class="h-14 w-auto mx-auto object-contain mb-2">
+                    @elseif (file_exists(public_path('assets/BADAN_POM.png')))
                         <img src="{{ asset('assets/BADAN_POM.png') }}" alt="Logo BPOM" class="h-14 w-auto mx-auto object-contain mb-2">
                     @else
                         <div class="inline-flex h-12 w-12 rounded-2xl bg-(--brand-navy) text-white items-center justify-center font-bold text-lg mb-2 shadow-md">
