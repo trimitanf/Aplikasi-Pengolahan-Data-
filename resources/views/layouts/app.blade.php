@@ -19,7 +19,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
 </head>
-<body class="h-full bg-[var(--bg)] font-sans antialiased text-[var(--text)]">
+<body class="h-full bg-(--bg) font-sans antialiased text-(--text)">
     <div class="min-h-full flex flex-col md:flex-row">
         <!-- Sidebar Navigation -->
         <aside
@@ -150,17 +150,17 @@
         <!-- Main Content Area -->
         <div class="flex-1 flex flex-col min-w-0 overflow-y-auto">
             <!-- Topbar Header -->
-            <header class="bg-[var(--surface)] border-b border-[var(--border)] sticky top-0 z-20 px-6 py-4 shadow-2xs">
+            <header class="bg-(--surface) border-b border-(--border) sticky top-0 z-20 px-6 py-4 shadow-2xs">
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                     <div>
-                        <div class="flex items-center gap-2 text-xs text-[var(--muted)] mb-1">
-                            <a href="{{ route('dashboard') }}" class="hover:text-[var(--brand-blue)]">Beranda</a>
+                        <div class="flex items-center gap-2 text-xs text-(--muted) mb-1">
+                            <a href="{{ route('dashboard') }}" class="hover:text-(--brand-blue)">Beranda</a>
                             @if (isset($breadcrumb))
                                 <span>/</span>
                                 <span class="text-gray-700 font-medium">{{ $breadcrumb }}</span>
                             @endif
                         </div>
-                        <h2 class="text-xl font-bold text-[var(--text)] tracking-tight">
+                        <h2 class="text-xl font-bold text-(--text) tracking-tight">
                             {{ $header ?? 'Dashboard' }}
                         </h2>
                     </div>
@@ -169,7 +169,7 @@
                         <x-badge variant="primary" size="sm">
                             Role: {{ ucfirst(auth()->user()->role ?? 'evaluator') }}
                         </x-badge>
-                        <span class="text-xs text-[var(--muted)] border-l border-gray-200 pl-3">
+                        <span class="text-xs text-(--muted) border-l border-gray-200 pl-3">
                             {{ now()->translatedFormat('l, d F Y') }}
                         </span>
                     </div>

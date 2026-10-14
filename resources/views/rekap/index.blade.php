@@ -80,7 +80,7 @@
     </x-card>
 
     <!-- Side-by-Side Rekap Presentation (Matching Excel Sheet) -->
-    <div class="bg-white rounded-2xl border border-[var(--border)] shadow-xs overflow-hidden">
+    <div class="bg-white rounded-2xl border border-(--border) shadow-xs overflow-hidden">
         <!-- Top Meta Header -->
         <div class="p-6 border-b border-gray-200 bg-slate-50/70 text-right space-y-1">
             <h2 class="text-sm md:text-base font-extrabold text-gray-900 uppercase tracking-tight">

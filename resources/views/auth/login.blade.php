@@ -16,7 +16,7 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="h-full bg-[var(--bg)] font-sans antialiased text-[var(--text)]">
+<body class="h-full bg-(--bg) font-sans antialiased text-(--text)">
     <div class="min-h-full flex flex-col md:flex-row">
         <!-- Left Side: Brand Visual & Info -->
         <div
@@ -69,7 +69,7 @@
             <div class="w-full max-w-md space-y-8">
                 <!-- Mobile Logo Header -->
                 <div class="md:hidden text-center space-y-2">
-                    <div class="inline-flex h-12 w-12 rounded-2xl bg-[var(--brand-navy)] text-white items-center justify-center font-bold text-lg mb-2 shadow-md">
+                    <div class="inline-flex h-12 w-12 rounded-2xl bg-(--brand-navy) text-white items-center justify-center font-bold text-lg mb-2 shadow-md">
                         BPOM
                     </div>
                     <h2 class="text-xl font-bold text-gray-900">Sistem Pengolahan Data Iklan</h2>
@@ -77,7 +77,7 @@
                 </div>
 
                 <!-- Card Container -->
-                <div class="bg-white p-8 rounded-2xl border border-[var(--border)] shadow-md space-y-6">
+                <div class="bg-white p-8 rounded-2xl border border-(--border) shadow-md space-y-6">
                     <div>
                         <h3 class="text-xl font-bold text-gray-900 tracking-tight">Masuk ke Sistem</h3>
                         <p class="text-xs text-gray-500 mt-1">Silakan masukkan username dan password evaluator Anda</p>

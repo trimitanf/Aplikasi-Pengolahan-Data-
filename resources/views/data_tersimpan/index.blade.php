@@ -87,7 +87,7 @@
     </x-card>
 
     <!-- Table of Finalized Standardized Data -->
-    <div class="bg-white rounded-xl border border-[var(--border)] shadow-xs overflow-hidden">
+    <div class="bg-white rounded-xl border border-(--border) shadow-xs overflow-hidden">
         <div class="p-4 border-b border-gray-200 flex items-center justify-between">
             <span class="text-xs font-semibold text-gray-700">
                 Total Data Final Terkunci: <span class="font-bold text-gray-900">{{ number_format($totalFinal, 0, ',', '.') }}</span> baris

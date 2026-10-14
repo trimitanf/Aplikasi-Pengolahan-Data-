@@ -33,7 +33,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <!-- OBA Card -->
         <x-card variant="soft">
-            <div class="flex items-center justify-between pb-4 border-b border-[var(--border)]">
+            <div class="flex items-center justify-between pb-4 border-b border-(--border)">
                 <div>
                     <span class="text-xs font-bold uppercase tracking-wider text-blue-700">Target IKU Tahun 2026</span>
                     <h3 class="text-lg font-bold text-gray-900 mt-0.5">Obat Bahan Alam (OBA)</h3>
@@ -42,7 +42,7 @@
             </div>
             <div class="mt-4 flex items-baseline justify-between">
                 <div>
-                    <span class="text-3xl font-extrabold text-[var(--brand-navy)]">
+                    <span class="text-3xl font-extrabold text-(--brand-navy)">
                         {{ number_format($targetIku['OBA']->target ?? 67, 2, ',', '.') }}%
                     </span>
                     <span class="text-xs text-gray-500 ml-1.5 font-medium">Target MK</span>
@@ -61,7 +61,7 @@
 
         <!-- SK Card -->
         <x-card variant="soft">
-            <div class="flex items-center justify-between pb-4 border-b border-[var(--border)]">
+            <div class="flex items-center justify-between pb-4 border-b border-(--border)">
                 <div>
                     <span class="text-xs font-bold uppercase tracking-wider text-emerald-700">Target IKU Tahun 2026</span>
                     <h3 class="text-lg font-bold text-gray-900 mt-0.5">Suplemen Kesehatan (SK)</h3>
@@ -70,7 +70,7 @@
             </div>
             <div class="mt-4 flex items-baseline justify-between">
                 <div>
-                    <span class="text-3xl font-extrabold text-[var(--brand-navy)]">
+                    <span class="text-3xl font-extrabold text-(--brand-navy)">
                         {{ number_format($targetIku['SK']->target ?? 83, 2, ',', '.') }}%
                     </span>
                     <span class="text-xs text-gray-500 ml-1.5 font-medium">Target MK</span>

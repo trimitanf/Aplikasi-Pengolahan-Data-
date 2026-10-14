@@ -138,7 +138,7 @@
                                                 <x-badge variant="success">Suplemen Kesehatan (SK)</x-badge>
                                             @endif
                                         </td>
-                                        <td class="px-4 py-3.5 text-right font-extrabold text-[var(--brand-navy)]">
+                                        <td class="px-4 py-3.5 text-right font-extrabold text-(--brand-navy)">
                                             {{ number_format($item->target, 2, ',', '.') }}%
                                         </td>
                                         <td class="px-4 py-3.5 text-center">
@@ -166,7 +166,7 @@
     <!-- TAB 2: KAMUS KODE (READ-ONLY) -->
     @if ($tabAktif === 'kamus_kode')
         <div class="space-y-6">
-            <div class="flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-xl border border-[var(--border)] shadow-2xs">
+            <div class="flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-xl border border-(--border) shadow-2xs">
                 <div>
                     <h3 class="text-sm font-bold text-gray-900">Kamus Kode Standar (Backend Reference)</h3>
                     <p class="text-xs text-gray-500 mt-0.5">Berpedoman pada sheet Master Data / Coding Standar BPOM. Data bersifat read-only.</p>

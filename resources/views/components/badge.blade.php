@@ -14,7 +14,7 @@
         'success' => 'bg-emerald-100 text-emerald-800 border-emerald-200',
         'warning' => 'bg-amber-100 text-amber-800 border-amber-200',
         'danger' => 'bg-red-100 text-red-800 border-red-200',
-        'manual' => 'bg-[var(--manual-soft)] text-red-700 border-[var(--manual-border)] font-semibold',
+        'manual' => 'bg-(--manual-soft) text-red-700 border-(--manual-border) font-semibold',
         default => 'bg-gray-100 text-gray-700 border-gray-200',
     };
 @endphp

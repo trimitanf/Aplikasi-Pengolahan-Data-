@@ -9,7 +9,7 @@
     </x-slot:breadcrumb>
 
     <!-- Header Actions & Search -->
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white p-4 rounded-xl border border-[var(--border)] shadow-xs">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white p-4 rounded-xl border border-(--border) shadow-xs">
         <div class="flex items-center gap-3">
             <a
                 href="{{ route('dataset.show', $dataset) }}"
@@ -51,7 +51,7 @@
     </div>
 
     <!-- 26 Columns Data Table Container -->
-    <div class="bg-white rounded-xl border border-[var(--border)] shadow-xs overflow-hidden">
+    <div class="bg-white rounded-xl border border-(--border) shadow-xs overflow-hidden">
         <div class="overflow-x-auto max-h-[75vh]">
             <table class="min-w-full divide-y divide-gray-200 text-xs whitespace-nowrap">
                 <thead class="bg-slate-100 text-gray-700 font-bold uppercase tracking-wider sticky top-0 z-10 shadow-xs">

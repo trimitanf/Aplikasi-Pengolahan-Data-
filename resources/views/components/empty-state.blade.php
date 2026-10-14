@@ -4,7 +4,7 @@
 ])
 
 <div {{ $attributes->merge(['class' => 'flex flex-col items-center justify-center p-8 md:p-12 text-center bg-white rounded-xl border border-dashed border-gray-300']) }}>
-    <div class="w-16 h-16 rounded-full bg-blue-50 text-[var(--brand-blue)] flex items-center justify-center mb-4">
+    <div class="w-16 h-16 rounded-full bg-blue-50 text-(--brand-blue) flex items-center justify-center mb-4">
         {{ $icon ?? '' }}
         @if (!isset($icon))
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">

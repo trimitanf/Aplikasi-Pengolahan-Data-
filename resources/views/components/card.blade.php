@@ -10,17 +10,17 @@
 @endphp
 
 <div
-    {{ $attributes->merge(['class' => "rounded-xl border border-[var(--border)] shadow-xs transition-shadow duration-200 overflow-hidden {$class}"]) }}
+    {{ $attributes->merge(['class' => "rounded-xl border border-(--border) shadow-xs transition-shadow duration-200 overflow-hidden {$class}"]) }}
     style="{{ $bgStyle }}"
 >
     @if ($title || isset($headerAction))
-        <div class="px-6 py-4 border-b border-[var(--border)] flex items-center justify-between gap-4">
+        <div class="px-6 py-4 border-b border-(--border) flex items-center justify-between gap-4">
             <div>
                 @if ($title)
-                    <h3 class="text-base font-semibold text-[var(--text)] tracking-tight">{{ $title }}</h3>
+                    <h3 class="text-base font-semibold text-(--text) tracking-tight">{{ $title }}</h3>
                 @endif
                 @if ($subtitle)
-                    <p class="text-xs text-[var(--muted)] mt-0.5">{{ $subtitle }}</p>
+                    <p class="text-xs text-(--muted) mt-0.5">{{ $subtitle }}</p>
                 @endif
             </div>
             @if (isset($headerAction))
@@ -36,7 +36,7 @@
     </div>
 
     @if (isset($footer))
-        <div class="px-6 py-3.5 bg-gray-50 border-t border-[var(--border)] flex items-center justify-end gap-3 rounded-b-xl">
+        <div class="px-6 py-3.5 bg-gray-50 border-t border-(--border) flex items-center justify-end gap-3 rounded-b-xl">
             {{ $footer }}
         </div>
     @endif

@@ -13,7 +13,7 @@
 
     <!-- Top Summary Statistics Cards -->
     <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
-        <div class="bg-white p-3.5 rounded-xl border border-[var(--border)] shadow-2xs">
+        <div class="bg-white p-3.5 rounded-xl border border-(--border) shadow-2xs">
             <span class="text-[10px] font-bold uppercase tracking-wider text-gray-500">Total Baris</span>
             <p class="text-xl font-extrabold text-gray-900 mt-0.5">{{ number_format($totalBaris, 0, ',', '.') }}</p>
         </div>
@@ -69,7 +69,7 @@
         class="space-y-4"
     >
         <!-- Action Toolbar -->
-        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 bg-white p-4 rounded-xl border border-[var(--border)] shadow-xs">
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 bg-white p-4 rounded-xl border border-(--border) shadow-xs">
             <!-- Left: Filter & Search -->
             <form method="GET" action="{{ route('dataset.standardisasi', $dataset) }}" class="flex flex-wrap items-center gap-2">
                 <select
@@ -233,7 +233,7 @@
         @endif
 
         <!-- Standard Table: 18 Columns matching Sheet Data All -->
-        <div class="bg-white rounded-xl border border-[var(--border)] shadow-xs overflow-hidden">
+        <div class="bg-white rounded-xl border border-(--border) shadow-xs overflow-hidden">
             <div class="overflow-x-auto max-h-[75vh]">
                 <table class="min-w-full divide-y divide-gray-200 text-xs text-center whitespace-nowrap">
                     <!-- Column Header Row with Excel styling tints -->
