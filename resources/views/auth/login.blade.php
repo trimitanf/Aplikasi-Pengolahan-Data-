@@ -36,17 +36,17 @@
             <div class="relative z-10">
                 <!-- Top Brand Logo & Institution Name -->
                 <div class="flex items-center gap-3.5">
-                    @if (file_exists(public_path('assets/logo-bpom.jpg')))
-                        <img src="{{ asset('assets/logo-bpom.jpg') }}" alt="Logo BPOM" class="h-14 w-auto object-contain shrink-0 rounded-lg">
-                    @elseif (file_exists(public_path('assets/logo-bpom.jpeg')))
-                        <img src="{{ asset('assets/logo-bpom.jpeg') }}" alt="Logo BPOM" class="h-14 w-auto object-contain shrink-0 rounded-lg">
-                    @elseif (file_exists(public_path('assets/BADAN_POM.png')))
-                        <img src="{{ asset('assets/BADAN_POM.png') }}" alt="Logo BPOM" class="h-14 w-auto object-contain shrink-0">
-                    @else
-                        <div class="h-12 w-12 rounded-xl bg-blue-700 text-white flex items-center justify-center font-bold text-sm tracking-wider shadow-sm">
-                            BPOM
-                        </div>
-                    @endif
+                    <div class="w-14 h-14 rounded-xl border border-slate-200/90 bg-white shadow-2xs flex items-center justify-center p-1.5 shrink-0 overflow-hidden">
+                        @if (file_exists(public_path('assets/logo-bpom.jpg')))
+                            <img src="{{ asset('assets/logo-bpom.jpg') }}" alt="Logo BPOM" class="w-full h-full object-contain">
+                        @elseif (file_exists(public_path('assets/logo-bpom.jpeg')))
+                            <img src="{{ asset('assets/logo-bpom.jpeg') }}" alt="Logo BPOM" class="w-full h-full object-contain">
+                        @elseif (file_exists(public_path('assets/BADAN_POM.png')))
+                            <img src="{{ asset('assets/BADAN_POM.png') }}" alt="Logo BPOM" class="w-full h-full object-contain">
+                        @else
+                            <span class="font-bold text-blue-700 text-sm tracking-wider">BPOM</span>
+                        @endif
+                    </div>
                     <div>
                         <div class="text-xl font-extrabold tracking-tight text-slate-800 leading-none">BADAN POM</div>
                         <p class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mt-1">Direktorat Pengawasan OTSK</p>
@@ -57,7 +57,7 @@
                 <div class="mt-10 sm:mt-12">
                     <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-[1.18]">
                         Pengolahan Data Iklan<br>
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700">Skala Nasional.</span>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700"></span>
                     </h1>
                     <p class="text-xs sm:text-sm text-slate-500 leading-relaxed mt-4 max-w-sm">
                         Sistem Informasi Pengolahan Data Iklan real-time dengan standardisasi kode numerik dan kompilasi rekap capaian IKU Obat Bahan Alam dan Suplemen Kesehatan.
