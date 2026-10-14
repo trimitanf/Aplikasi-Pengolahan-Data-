@@ -9,8 +9,8 @@
 </head>
 <body class="min-h-screen bg-(--bg) flex items-center justify-center p-6 text-(--text)">
     <div class="text-center space-y-4 max-w-md">
-        <div class="inline-flex h-14 w-14 rounded-2xl bg-(--brand-navy) text-white items-center justify-center font-bold text-xl shadow-md">
-            BPOM
+        <div class="flex justify-center mb-2">
+            <img src="{{ asset('assets/BADAN_POM.png') }}" alt="Logo BPOM" class="h-16 w-auto object-contain">
         </div>
         <h1 class="text-xl font-bold text-gray-900">Sistem Informasi Pengolahan Data Iklan</h1>
         <p class="text-sm text-gray-500">Direktorat Pengawasan OTSK - Badan Pengawas Obat dan Makanan</p>

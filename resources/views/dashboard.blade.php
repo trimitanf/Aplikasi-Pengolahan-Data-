@@ -530,9 +530,13 @@
             <div class="p-6 space-y-6">
                 <div class="flex items-center justify-between pb-4 border-b border-gray-200">
                     <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-xl bg-(--brand-navy) text-white flex items-center justify-center font-bold text-sm">
-                            BPOM
-                        </div>
+                        @if (file_exists(public_path('assets/BADAN_POM.png')))
+                            <img src="{{ asset('assets/BADAN_POM.png') }}" alt="Logo BPOM" class="h-10 w-auto object-contain">
+                        @else
+                            <div class="w-10 h-10 rounded-xl bg-(--brand-navy) text-white flex items-center justify-center font-bold text-sm">
+                                BPOM
+                            </div>
+                        @endif
                         <div>
                             <h3 class="text-base font-bold text-gray-900">Panduan Alur Sistem Pengolahan Data Iklan</h3>
                             <p class="text-xs text-gray-500">Tim Pengolahan Iklan, Direktorat Pengawasan OTSK</p>
