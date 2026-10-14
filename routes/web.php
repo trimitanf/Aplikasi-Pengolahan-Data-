@@ -3,7 +3,9 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DatasetController;
+use App\Http\Controllers\DataTersimpanController;
 use App\Http\Controllers\PengaturanController;
+use App\Http\Controllers\StandardisasiController;
 use Illuminate\Support\Facades\Route;
 
 // Guest Authentication Routes
@@ -34,11 +36,20 @@ Route::middleware('auth')->group(function () {
     Route::get('/dataset/{dataset}/status', [DatasetController::class, 'status'])->name('dataset.status');
     Route::delete('/dataset/{dataset}', [DatasetController::class, 'destroy'])->name('dataset.destroy');
 
-    // Tahap selanjutnya placeholder routes
-    Route::get('/data-tersimpan', function () {
-        return redirect()->route('dashboard')->with('info', 'Modul Data Tersimpan aktif pada Tahap 3.');
-    })->name('data-tersimpan.index');
+    // Standardisasi & Input Manual (Tahap 3)
+    Route::get('/dataset/{dataset}/standardisasi', [StandardisasiController::class, 'show'])->name('dataset.standardisasi');
+    Route::post('/dataset/{dataset}/konversi/ulang', [StandardisasiController::class, 'runConversion'])->name('dataset.konversi.ulang');
+    Route::post('/dataset/{dataset}/manual-cell/{item}', [StandardisasiController::class, 'updateManualCell'])->name('dataset.manual-cell.update');
+    Route::post('/dataset/{dataset}/bulk-manual', [StandardisasiController::class, 'bulkUpdateManual'])->name('dataset.bulk-manual');
+    Route::post('/dataset/{dataset}/simpan-aturan-pemetaan', [StandardisasiController::class, 'saveMappingRule'])->name('dataset.mapping.save');
+    Route::post('/dataset/{dataset}/simpan-final', [StandardisasiController::class, 'simpanFinal'])->name('dataset.simpan-final');
+    Route::get('/dataset/{dataset}/export', [StandardisasiController::class, 'export'])->name('dataset.export');
 
+    // Data Tersimpan (Tahap 3)
+    Route::get('/data-tersimpan', [DataTersimpanController::class, 'index'])->name('data-tersimpan.index');
+    Route::get('/data-tersimpan/export', [DataTersimpanController::class, 'export'])->name('data-tersimpan.export');
+
+    // Tahap 4 & 5 placeholders
     Route::get('/rekap', function () {
         return redirect()->route('dashboard')->with('info', 'Modul Rekap aktif pada Tahap 4.');
     })->name('rekap.index');
