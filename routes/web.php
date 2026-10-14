@@ -49,8 +49,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/data-tersimpan', [DataTersimpanController::class, 'index'])->name('data-tersimpan.index');
     Route::get('/data-tersimpan/export', [DataTersimpanController::class, 'export'])->name('data-tersimpan.export');
 
-    // Tahap 4 & 5 placeholders
-    Route::get('/rekap', function () {
-        return redirect()->route('dashboard')->with('info', 'Modul Rekap aktif pada Tahap 4.');
-    })->name('rekap.index');
+    // Rekap (Tahap 4)
+    Route::get('/rekap', [\App\Http\Controllers\RekapController::class, 'index'])->name('rekap.index');
+    Route::get('/rekap/export', [\App\Http\Controllers\RekapController::class, 'export'])->name('rekap.export');
 });
