@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DatasetController;
 use App\Http\Controllers\PengaturanController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,11 +26,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/pengaturan', [PengaturanController::class, 'index'])->name('pengaturan.index');
     Route::post('/pengaturan/target-iku', [PengaturanController::class, 'updateTargetIku'])->name('pengaturan.target-iku.update');
 
-    // Tahap selanjutnya placeholder routes to keep sidebar navigation robust
-    Route::get('/dataset', function () {
-        return redirect()->route('dashboard')->with('info', 'Modul Dataset aktif pada Tahap 2.');
-    })->name('dataset.index');
+    // Dataset (Tahap 2)
+    Route::get('/dataset', [DatasetController::class, 'index'])->name('dataset.index');
+    Route::post('/dataset', [DatasetController::class, 'store'])->name('dataset.store');
+    Route::get('/dataset/{dataset}', [DatasetController::class, 'show'])->name('dataset.show');
+    Route::get('/dataset/{dataset}/data-mentah', [DatasetController::class, 'dataMentah'])->name('dataset.data-mentah');
+    Route::get('/dataset/{dataset}/status', [DatasetController::class, 'status'])->name('dataset.status');
+    Route::delete('/dataset/{dataset}', [DatasetController::class, 'destroy'])->name('dataset.destroy');
 
+    // Tahap selanjutnya placeholder routes
     Route::get('/data-tersimpan', function () {
         return redirect()->route('dashboard')->with('info', 'Modul Data Tersimpan aktif pada Tahap 3.');
     })->name('data-tersimpan.index');
