@@ -198,7 +198,7 @@
                                     <td class="px-4 py-3.5 font-semibold text-gray-900">
                                         {{ $item->nama_bulan }} {{ $item->periode_tahun }}
                                     </td>
-                                    <td class="px-4 py-3.5 text-xs text-gray-600 font-mono truncate max-w-[180px]" title="{{ $item->nama_file_asli }}">
+                                    <td class="px-4 py-3.5 text-xs text-gray-600 font-mono truncate max-w-45" title="{{ $item->nama_file_asli }}">
                                         {{ $item->nama_file_asli }}
                                     </td>
                                     <td class="px-4 py-3.5 text-right font-medium text-gray-800">

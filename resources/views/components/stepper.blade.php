@@ -15,7 +15,7 @@
 @endphp
 
 <div class="w-full bg-white rounded-xl border border-(--border) p-4 shadow-xs overflow-x-auto">
-    <ol class="flex items-center min-w-[700px] justify-between">
+    <ol class="flex items-center min-w-175 justify-between">
         @foreach ($steps as $stepNum => $step)
             @php
                 $isCompleted = $stepNum < $activeStep;

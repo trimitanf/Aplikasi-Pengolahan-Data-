@@ -270,15 +270,15 @@
                             <!-- 15. PEMBUAT IKLAN -->
                             <th class="px-3 py-3 border-r border-gray-300 w-16">PEMBUAT IKLAN</th>
                             <!-- 16, 17, 18. TIGA KOLOM MANUAL (Soft Red) -->
-                            <th class="px-3 py-3 border-r border-red-300 bg-[#FFCDD2] text-red-900 min-w-[130px]">
+                            <th class="px-3 py-3 border-r border-red-300 bg-[#FFCDD2] text-red-900 min-w-32.5">
                                 <div>KESESUAIAN EVALUASI</div>
                                 <span class="inline-block mt-0.5 text-[9px] bg-red-600 text-white px-1.5 py-0.2 rounded font-normal">Input manual</span>
                             </th>
-                            <th class="px-3 py-3 border-r border-red-300 bg-[#FFCDD2] text-red-900 min-w-[130px]">
+                            <th class="px-3 py-3 border-r border-red-300 bg-[#FFCDD2] text-red-900 min-w-32.5">
                                 <div>KUALITAS LAPORAN</div>
                                 <span class="inline-block mt-0.5 text-[9px] bg-red-600 text-white px-1.5 py-0.2 rounded font-normal">Input manual</span>
                             </th>
-                            <th class="px-3 py-3 bg-[#FFCDD2] text-red-900 min-w-[130px]">
+                            <th class="px-3 py-3 bg-[#FFCDD2] text-red-900 min-w-32.5">
                                 <div>KETEPATAN WAKTU</div>
                                 <span class="inline-block mt-0.5 text-[9px] bg-red-600 text-white px-1.5 py-0.2 rounded font-normal">Input manual</span>
                             </th>

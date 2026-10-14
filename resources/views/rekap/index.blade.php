@@ -102,7 +102,7 @@
 
         <!-- 2 Side-by-side Tables Container -->
         <div class="overflow-x-auto p-4 md:p-6">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 min-w-[980px]">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 min-w-245">
                 <!-- ================= LEFT TABLE: OBAT BAHAN ALAM (OBA) ================= -->
                 <div class="border border-gray-300 rounded-xl overflow-hidden shadow-2xs">
                     <table class="w-full text-xs divide-y divide-gray-200">
