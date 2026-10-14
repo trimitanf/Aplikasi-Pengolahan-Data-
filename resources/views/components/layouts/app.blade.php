@@ -27,23 +27,23 @@
             style="background-image: var(--grad-brand);"
         >
             <!-- Logo & Brand Header -->
-            <div class="p-6 border-b border-white/15 flex items-center gap-3">
-                @if (file_exists(public_path('assets/logo-bpom.jpeg')))
-                    <img src="{{ asset('assets/logo-bpom.jpeg') }}" alt="Logo BPOM" class="h-10 w-auto bg-white/10 p-1 rounded-lg shrink-0 object-contain">
-                @elseif (file_exists(public_path('assets/BADAN_POM.png')))
-                    <img src="{{ asset('assets/BADAN_POM.png') }}" alt="Logo BPOM" class="h-10 w-auto bg-white/10 p-1 rounded-lg shrink-0 object-contain">
+            <div class="p-6 border-b border-white/15 flex items-center gap-3.5">
+                @if (file_exists(public_path('assets/BADAN_POM.png')))
+                    <img src="{{ asset('assets/BADAN_POM.png') }}" alt="Logo BPOM" class="h-12 w-auto shrink-0 object-contain drop-shadow-md">
                 @elseif (file_exists(public_path('images/logo-bpom.png')))
-                    <img src="{{ asset('images/logo-bpom.png') }}" alt="Logo BPOM" class="h-10 w-auto bg-white/10 p-1.5 rounded-lg shrink-0">
-                @elseif (file_exists(public_path('images/logo-bpom.svg')))
-                    <img src="{{ asset('images/logo-bpom.svg') }}" alt="Logo BPOM" class="h-10 w-auto bg-white/10 p-1.5 rounded-lg shrink-0">
+                    <img src="{{ asset('images/logo-bpom.png') }}" alt="Logo BPOM" class="h-12 w-auto shrink-0 object-contain drop-shadow-md">
+                @elseif (file_exists(public_path('assets/logo-bpom.jpg')))
+                    <img src="{{ asset('assets/logo-bpom.jpg') }}" alt="Logo BPOM" class="h-12 w-auto shrink-0 object-contain">
+                @elseif (file_exists(public_path('assets/logo-bpom.jpeg')))
+                    <img src="{{ asset('assets/logo-bpom.jpeg') }}" alt="Logo BPOM" class="h-12 w-auto shrink-0 object-contain">
                 @else
-                    <div class="h-10 w-10 rounded-xl bg-white/15 border border-white/20 flex items-center justify-center font-bold text-white text-base tracking-wider shrink-0 shadow-inner">
+                    <div class="h-11 w-11 rounded-xl bg-white/15 border border-white/20 flex items-center justify-center font-bold text-white text-base tracking-wider shrink-0 shadow-inner">
                         BPOM
                     </div>
                 @endif
                 <div>
                     <h1 class="text-sm font-bold tracking-tight text-white leading-tight">Pengawasan OTSK</h1>
-                    <p class="text-[11px] text-blue-200/80 font-medium">Pengolahan Data Iklan</p>
+                    <p class="text-[11px] text-blue-200/90 font-medium">Pengolahan Data Iklan</p>
                 </div>
             </div>
 
