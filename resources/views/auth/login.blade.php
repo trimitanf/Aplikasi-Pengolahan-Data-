@@ -40,20 +40,26 @@
                 <!-- Top Brand Logo (Frameless, Larger, Clear) & Institution Name -->
                 <div class="flex items-center gap-4">
                     @if (file_exists(public_path('assets/logo-bpom.jpg')))
-                        <img src="{{ asset('assets/logo-bpom.jpg') }}" alt="Logo BPOM" class="h-20 sm:h-22 w-auto object-contain shrink-0">
+                        <img src="{{ asset('assets/logo-bpom.jpg') }}" alt="Logo BPOM" class="h-20 sm:h-[88px] w-auto object-contain shrink-0">
                     @elseif (file_exists(public_path('assets/logo-bpom.jpeg')))
-                        <img src="{{ asset('assets/logo-bpom.jpeg') }}" alt="Logo BPOM" class="h-20 sm:h-22 w-auto object-contain shrink-0">
+                        <img src="{{ asset('assets/logo-bpom.jpeg') }}" alt="Logo BPOM" class="h-20 sm:h-[88px] w-auto object-contain shrink-0">
                     @elseif (file_exists(public_path('assets/BADAN_POM.png')))
-                        <img src="{{ asset('assets/BADAN_POM.png') }}" alt="Logo BPOM" class="h-20 sm:h-22 w-auto object-contain shrink-0">
+                        <img src="{{ asset('assets/BADAN_POM.png') }}" alt="Logo BPOM" class="h-20 sm:h-[88px] w-auto object-contain shrink-0">
                     @else
-                        <div class="h-16 w-16 rounded-2xl bg-[#003B7A] text-white flex items-center justify-center font-bold text-lg tracking-wider shadow-sm">
+                        <div class="h-20 sm:h-[88px] w-20 rounded-2xl bg-[#003B7A] text-white flex items-center justify-center font-bold text-lg tracking-wider shadow-sm">
                             BPOM
                         </div>
                     @endif
-                    <div>
-                        <div class="text-2xl font-black tracking-tight text-[#003B7A] leading-tight">BADAN POM</div>
-                        <p class="text-xs font-bold text-[#008D43] uppercase tracking-wider mt-0.5">Direktorat Pengawasan OTSK</p>
-                        <p class="text-[11px] font-medium text-slate-400 tracking-wide mt-0.5">Republik Indonesia</p>
+                    <div class="h-20 sm:h-[88px] flex flex-col justify-between py-0.5">
+                        <div class="text-2xl sm:text-[26px] font-black tracking-tight text-[#0B3462] leading-none">
+                            BADAN POM
+                        </div>
+                        <div class="text-xs sm:text-[12px] font-bold text-[#008D43] uppercase leading-[1.2] tracking-tight">
+                            BADAN PENGAWAS OBAT DAN<br>MAKANAN
+                        </div>
+                        <div class="text-[10px] sm:text-[11px] font-semibold text-[#5D7189] uppercase tracking-widest leading-none">
+                            REPUBLIK INDONESIA
+                        </div>
                     </div>
                 </div>
 
@@ -61,10 +67,10 @@
                 <div class="mt-10 sm:mt-12">
                     <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-[1.18]">
                         Pengolahan Data Iklan<br>
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#003B7A] via-[#0C589C] to-[#008D43]">Skala Nasional.</span>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#003B7A] via-[#0C589C] to-[#008D43]">Direktorat Pengawasan OT SK</span>
                     </h1>
                     <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mt-4 max-w-sm">
-                        Sistem Informasi Pengolahan Data Iklan real-time dengan standardisasi kode numerik dan kompilasi rekap capaian IKU Obat Bahan Alam dan Suplemen Kesehatan.
+                        Sistem Informasi Pengolahan Data Iklan real-time dengan standardisasi kode numerik dan rekap capaian IKU Obat Bahan Alam dan Suplemen Kesehatan.
                     </p>
                 </div>
 
@@ -89,7 +95,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
                             </svg>
                         </div>
-                        <span>Real-time Rekapitulasi IKU Sync</span>
+                        <span>Real-time Rekapitulasi IKU</span>
                     </div>
                 </div>
             </div>
@@ -105,7 +111,7 @@
             <div>
                 <!-- Heading -->
                 <h2 class="text-2xl font-bold text-slate-900 tracking-tight">Selamat Datang</h2>
-                <p class="text-xs sm:text-sm text-slate-500 mt-1">Masuk menggunakan kredensial NIP atau Email dinas Anda.</p>
+                <p class="text-xs sm:text-sm text-slate-500 mt-1">Masuk sebagai evaluator iklan obat tradisional dan suplemen kesehatan</p>
 
                 <!-- Session Alert -->
                 @if (session('status'))
@@ -134,7 +140,7 @@
                     <!-- NIP / Email / Username -->
                     <div class="space-y-1.5">
                         <label for="username" class="block text-xs font-semibold text-slate-700">
-                            NIP / Email / Username <span class="text-rose-500">*</span>
+                            Evaluator<span class="text-rose-500">*</span>
                         </label>
                         <div class="relative">
                             <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
@@ -149,7 +155,7 @@
                                 value="{{ old('username') }}"
                                 required
                                 autofocus
-                                placeholder="10000001 atau evaluator"
+                                placeholder="evaluator"
                                 class="block w-full pl-10 pr-3.5 py-2.5 text-sm text-slate-900 rounded-xl border border-slate-200 bg-white placeholder:text-slate-400 focus:border-[#003B7A] focus:ring-2 focus:ring-[#003B7A]/15 focus:outline-none transition {{ $errors->has('username') ? 'border-rose-400 ring-2 ring-rose-500/10' : '' }}"
                             >
                         </div>
