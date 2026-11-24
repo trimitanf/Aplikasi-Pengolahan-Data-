@@ -768,58 +768,84 @@
             </div>
 
             <!-- 4. Card IKU OBA -->
-            <div class="dash-card exec-card kpi-card-compact hover:border-blue-300 transition-all">
-                <div class="flex items-center justify-between">
-                    <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">
-                        IKU OBA
-                    </span>
-                    @if ($iku['oba']['tercapai'])
-                        <span class="dash-badge px-2 py-0.5 rounded-full text-[10.5px] font-bold bg-emerald-50 text-[#059669] border border-emerald-200" style="white-space: nowrap;">
-                            ✓ Tercapai
+            <div class="dash-card exec-card kpi-card-compact hover:border-blue-300 transition-all flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between pb-1.5 border-b border-slate-100">
+                        <span class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                            IKU OBA
                         </span>
-                    @endif
-                </div>
-                <div class="my-2.5">
-                    <div class="text-[24px] font-extrabold text-[#2563EB] tracking-tight leading-tight">
-                        {{ $formatPersen($iku['oba']['realisasi_persen_mk']) }}
+                        @if ($iku['oba']['tercapai'])
+                            <span class="dash-badge px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-[#059669] border border-emerald-200" style="white-space: nowrap;">
+                                ✓ Tercapai
+                            </span>
+                        @else
+                            <span class="dash-badge px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200" style="white-space: nowrap;">
+                                Belum Tercapai
+                            </span>
+                        @endif
                     </div>
-                    <span class="text-[9.5px] font-bold uppercase text-slate-400 block tracking-wider mt-0.5">Realisasi % MK</span>
-                    <!-- Progress Bar Indikator Capaian Target -->
-                    <div class="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden mt-2">
-                        <div class="bg-[#2563EB] h-1.5 rounded-full transition-all duration-500" style="width: {{ min(100, max(0, (float)$iku['oba']['capaian_persen'])) }}%"></div>
+
+                    <!-- 3 Baris Format Standar BPOM (Sesuai Contoh Excel) -->
+                    <div class="my-2 bg-[#E0F7FA]/50 rounded-lg p-2 border border-cyan-200/80 space-y-1.5 text-[11px]">
+                        <div class="flex items-center justify-between">
+                            <span class="font-bold text-cyan-950 uppercase tracking-tight text-[10px]">TARGET IKU OBA MK {{ $filter['tahun'] ?? now()->year }}</span>
+                            <span class="font-extrabold text-red-600 text-xs">{{ $formatPersen($iku['oba']['target']) }}</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="font-bold text-cyan-950 uppercase tracking-tight text-[10px]">CAPAIAN IKU OBA MK</span>
+                            <span class="font-extrabold text-[#2563EB] text-xs">{{ $formatPersen($iku['oba']['realisasi_persen_mk']) }}</span>
+                        </div>
+                        <div class="flex items-center justify-between pt-1 border-t border-cyan-200/90">
+                            <span class="font-bold text-cyan-950 text-[10px]">Persentase capaian IKU</span>
+                            <span class="font-extrabold text-blue-900 text-xs">{{ $formatPersen($iku['oba']['capaian_persen']) }}</span>
+                        </div>
                     </div>
                 </div>
-                <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px]">
-                    <span class="text-slate-400 font-medium">Target: <strong class="text-slate-700 font-bold">{{ $formatPersen($iku['oba']['target']) }}</strong></span>
-                    <span class="text-[#2563EB] font-bold dash-badge" style="white-space: nowrap;">Capaian: {{ $formatPersen($iku['oba']['capaian_persen']) }}</span>
+
+                <!-- Progress Bar Indikator Capaian Target -->
+                <div class="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden mt-1">
+                    <div class="bg-[#2563EB] h-1.5 rounded-full transition-all duration-500" style="width: {{ min(100, max(0, (float)$iku['oba']['capaian_persen'])) }}%"></div>
                 </div>
             </div>
 
             <!-- 5. Card IKU SK -->
-            <div class="dash-card exec-card kpi-card-compact hover:border-emerald-300 transition-all">
-                <div class="flex items-center justify-between">
-                    <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">
-                        IKU SK
-                    </span>
-                    @if ($iku['sk']['tercapai'])
-                        <span class="dash-badge px-2 py-0.5 rounded-full text-[10.5px] font-bold bg-emerald-50 text-[#059669] border border-emerald-200" style="white-space: nowrap;">
-                            ✓ Tercapai
+            <div class="dash-card exec-card kpi-card-compact hover:border-emerald-300 transition-all flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between pb-1.5 border-b border-slate-100">
+                        <span class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                            IKU SK
                         </span>
-                    @endif
-                </div>
-                <div class="my-2.5">
-                    <div class="text-[24px] font-extrabold text-[#059669] tracking-tight leading-tight">
-                        {{ $formatPersen($iku['sk']['realisasi_persen_mk']) }}
+                        @if ($iku['sk']['tercapai'])
+                            <span class="dash-badge px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-[#059669] border border-emerald-200" style="white-space: nowrap;">
+                                ✓ Tercapai
+                            </span>
+                        @else
+                            <span class="dash-badge px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-500 border border-slate-200" style="white-space: nowrap;">
+                                Belum Tercapai
+                            </span>
+                        @endif
                     </div>
-                    <span class="text-[9.5px] font-bold uppercase text-slate-400 block tracking-wider mt-0.5">Realisasi % MK</span>
-                    <!-- Progress Bar Indikator Capaian Target -->
-                    <div class="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden mt-2">
-                        <div class="bg-[#059669] h-1.5 rounded-full transition-all duration-500" style="width: {{ min(100, max(0, (float)$iku['sk']['capaian_persen'])) }}%"></div>
+
+                    <!-- 3 Baris Format Standar BPOM (Sesuai Contoh Excel) -->
+                    <div class="my-2 bg-[#E0F7FA]/50 rounded-lg p-2 border border-cyan-200/80 space-y-1.5 text-[11px]">
+                        <div class="flex items-center justify-between">
+                            <span class="font-bold text-cyan-950 uppercase tracking-tight text-[10px]">TARGET IKU SK MK {{ $filter['tahun'] ?? now()->year }}</span>
+                            <span class="font-extrabold text-red-600 text-xs">{{ $formatPersen($iku['sk']['target']) }}</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="font-bold text-cyan-950 uppercase tracking-tight text-[10px]">CAPAIAN IKU SK MK</span>
+                            <span class="font-extrabold text-[#059669] text-xs">{{ $formatPersen($iku['sk']['realisasi_persen_mk']) }}</span>
+                        </div>
+                        <div class="flex items-center justify-between pt-1 border-t border-cyan-200/90">
+                            <span class="font-bold text-cyan-950 text-[10px]">Persentase capaian IKU</span>
+                            <span class="font-extrabold text-emerald-900 text-xs">{{ $formatPersen($iku['sk']['capaian_persen']) }}</span>
+                        </div>
                     </div>
                 </div>
-                <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px]">
-                    <span class="text-slate-400 font-medium">Target: <strong class="text-slate-700 font-bold">{{ $formatPersen($iku['sk']['target']) }}</strong></span>
-                    <span class="text-[#059669] font-bold dash-badge" style="white-space: nowrap;">Capaian: {{ $formatPersen($iku['sk']['capaian_persen']) }}</span>
+
+                <!-- Progress Bar Indikator Capaian Target -->
+                <div class="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden mt-1">
+                    <div class="bg-[#059669] h-1.5 rounded-full transition-all duration-500" style="width: {{ min(100, max(0, (float)$iku['sk']['capaian_persen'])) }}%"></div>
                 </div>
             </div>
         </div>
