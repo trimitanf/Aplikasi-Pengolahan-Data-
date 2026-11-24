@@ -791,7 +791,11 @@
                 </div>
                 <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px]">
                     <span class="text-slate-400 font-medium">Target: <strong class="text-slate-700 font-bold">{{ $formatPersen($iku['oba']['target']) }}</strong></span>
-                    <span class="text-[#2563EB] font-bold dash-badge" style="white-space: nowrap;">Capaian: {{ $formatPersen($iku['oba']['capaian_persen']) }}</span>
+                    @php
+                        $capaianObaRiil = (float) ($iku['oba']['capaian_persen'] ?? 0);
+                        $capaianObaCapped = min(100, max(0, (float) ($iku['oba']['capaian_persen_capped'] ?? $capaianObaRiil)));
+                    @endphp
+                    <span class="text-[#2563EB] font-bold dash-badge" style="white-space: nowrap;" @if($capaianObaRiil > 100) title="Realisasi capaian riil: {{ $formatPersen($capaianObaRiil) }} (Dibatasi maksimal 100% / Capping)" @endif>Capaian: {{ $formatPersen($capaianObaCapped) }}</span>
                 </div>
             </div>
 
@@ -819,7 +823,11 @@
                 </div>
                 <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px]">
                     <span class="text-slate-400 font-medium">Target: <strong class="text-slate-700 font-bold">{{ $formatPersen($iku['sk']['target']) }}</strong></span>
-                    <span class="text-[#059669] font-bold dash-badge" style="white-space: nowrap;">Capaian: {{ $formatPersen($iku['sk']['capaian_persen']) }}</span>
+                    @php
+                        $capaianSkRiil = (float) ($iku['sk']['capaian_persen'] ?? 0);
+                        $capaianSkCapped = min(100, max(0, (float) ($iku['sk']['capaian_persen_capped'] ?? $capaianSkRiil)));
+                    @endphp
+                    <span class="text-[#059669] font-bold dash-badge" style="white-space: nowrap;" @if($capaianSkRiil > 100) title="Realisasi capaian riil: {{ $formatPersen($capaianSkRiil) }} (Dibatasi maksimal 100% / Capping)" @endif>Capaian: {{ $formatPersen($capaianSkCapped) }}</span>
                 </div>
             </div>
         </div>

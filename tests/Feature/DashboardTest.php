@@ -398,4 +398,30 @@ class DashboardTest extends TestCase
         $this->assertTrue($iklan2->is_final);
         $this->assertEquals($this->evaluator->id, $iklan2->evaluator_id);
     }
+
+    public function test_card_iku_caps_at_100_percent_when_realization_exceeds_target(): void
+    {
+        // 1 MK di jenis_produk 1 (OBA): realisasi 100%, target 67% -> capaian riil 149.25%, capped 100%
+        DataIklan::create([
+            'dataset_id' => $this->dataset->id,
+            'data_mentah_id' => $this->dataMentah->id,
+            'evaluator_id' => $this->evaluator->id,
+            'no' => 1,
+            'upt' => 1,
+            'periode_bulan' => 7,
+            'periode_tahun' => 2026,
+            'jenis_produk' => 1,
+            'hasil_evaluasi' => 1,
+            'is_final' => true,
+        ]);
+
+        \App\Services\Iklan\DashboardService::bumpCacheVersion();
+
+        $response = $this->actingAs($this->evaluator)->get(route('dashboard', ['tahun' => 2026]));
+        $response->assertOk();
+
+        // Card IKU OBA harus menampilkan Capaian: 100,00% (capping maksimal 100%)
+        $response->assertSee('Capaian: 100,00%');
+        $response->assertDontSee('Capaian: 149,25%');
+    }
 }

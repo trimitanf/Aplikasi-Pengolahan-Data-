@@ -124,6 +124,7 @@ class PerhitunganRumusIkuTest extends TestCase
         // Rumus Capaian: (70 / 67) * 100 = 104.4776%
         $expectedCapaianOba = (70.0 / 67.0) * 100;
         $this->assertEqualsWithDelta($expectedCapaianOba, $ikuOba['capaian_persen'], 0.01);
+        $this->assertEquals(100.0, $ikuOba['capaian_persen_capped'], 'Capaian OBA dibatasi maksimal 100% (capping)');
         $this->assertTrue($ikuOba['tercapai'], 'OBA 70% harus berstatus target tercapai karena >= 67%');
 
         // Verifikasi Perhitungan SK
@@ -136,6 +137,7 @@ class PerhitunganRumusIkuTest extends TestCase
         // Rumus Capaian: (80 / 83) * 100 = 96.3855%
         $expectedCapaianSk = (80.0 / 83.0) * 100;
         $this->assertEqualsWithDelta($expectedCapaianSk, $ikuSk['capaian_persen'], 0.01);
+        $this->assertEqualsWithDelta($expectedCapaianSk, $ikuSk['capaian_persen_capped'], 0.01);
         $this->assertFalse($ikuSk['tercapai'], 'SK 80% belum tercapai karena < 83%');
     }
 
