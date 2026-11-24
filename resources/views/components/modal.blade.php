@@ -1,6 +1,6 @@
 @props([
     'name',
-    'title' => 'Konfirmasi Tindakan',
+    'title' => null,
     'maxWidth' => '2xl',
 ])
 
@@ -23,7 +23,7 @@
     x-on:close-modal.window="$event.detail === '{{ $name }}' ? show = false : null"
     x-on:keydown.escape.window="show = false"
     style="display: none;"
-    class="fixed inset-0 z-50 overflow-y-auto"
+    class="fixed inset-0 z-50 overflow-y-auto no-print print:hidden"
 >
     <!-- Backdrop -->
     <div
@@ -50,18 +50,20 @@
             x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl transition-all sm:my-8 w-full {{ $maxWidthClasses }} border border-gray-100"
         >
-            <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
-                <h3 class="text-base font-semibold text-gray-900">{{ $title }}</h3>
-                <button
-                    type="button"
-                    @click="show = false"
-                    class="rounded-lg p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-500 cursor-pointer"
-                >
-                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
+            @if ($title)
+                <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+                    <h3 class="text-base font-semibold text-gray-900">{{ $title }}</h3>
+                    <button
+                        type="button"
+                        @click="show = false"
+                        class="rounded-lg p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-500 cursor-pointer"
+                    >
+                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            @endif
 
             <div class="p-6">
                 {{ $slot }}

@@ -29,10 +29,10 @@
     </div>
 
     <!-- Centered Floating Rounded Card -->
-    <div class="relative z-10 w-full max-w-4xl bg-white rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,59,122,0.08)] border border-slate-100/90 overflow-hidden flex flex-col md:flex-row">
+    <div class="relative z-10 w-full max-w-5xl bg-white rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,59,122,0.08)] border border-slate-100/90 overflow-hidden flex flex-col md:flex-row">
 
         <!-- Left Column: Branding, Statement, and Trust Pills -->
-        <div class="w-full md:w-1/2 p-8 sm:p-10 lg:p-12 flex flex-col justify-between relative overflow-hidden bg-linear-to-b from-white via-[#f9fbfb] to-[#edf6f2]/40">
+        <div class="w-full md:w-[53%] p-8 sm:p-10 lg:p-12 flex flex-col justify-between relative overflow-hidden bg-linear-to-b from-white via-[#f9fbfb] to-[#edf6f2]/40">
             <!-- Subtle organic ambient curve with BPOM tones -->
             <div class="absolute top-0 right-0 w-72 h-72 bg-linear-to-br from-[#003B7A]/5 via-[#008D43]/10 to-transparent rounded-full blur-2xl pointer-events-none -mr-20 -mt-20"></div>
 
@@ -64,12 +64,16 @@
                 </div>
 
                 <!-- Headline -->
-                <div class="mt-10 sm:mt-12">
-                    <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-[1.18]">
-                        Pengolahan Data Iklan<br>
-                        <span class="text-transparent bg-clip-text bg-linear-to-r from-[#003B7A] via-[#0C589C] to-[#008D43]">Direktorat Pengawasan OT SK</span>
+                <div class="mt-8 sm:mt-10">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#003B7A]/8 border border-[#003B7A]/15 text-[#003B7A] text-[11px] font-bold uppercase tracking-wider mb-3">
+                        <span class="w-1.5 h-1.5 rounded-full bg-[#008D43]"></span>
+                        <span>Unit Kerja Tim Iklan dan Penandaan</span>
+                    </div>
+                    <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight leading-tight">
+                        <span class="block">Pengolahan Data Iklan</span>
+                        <span class="block text-transparent bg-clip-text bg-linear-to-r from-[#003B7A] via-[#0C589C] to-[#008D43]">Direktorat Pengawasan OTSK</span>
                     </h1>
-                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mt-4 max-w-sm">
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mt-3.5 max-w-md">
                         Sistem Informasi Pengolahan Data Iklan real-time dengan standardisasi kode numerik dan rekap capaian IKU Obat Bahan Alam dan Suplemen Kesehatan.
                     </p>
                 </div>
@@ -107,11 +111,12 @@
         </div>
 
         <!-- Right Column: Login Form -->
-        <div class="w-full md:w-1/2 p-8 sm:p-10 lg:p-12 flex flex-col justify-center bg-white border-t md:border-t-0 md:border-l border-slate-100">
+        <div class="w-full md:w-[47%] p-8 sm:p-10 lg:p-12 flex flex-col justify-center bg-white border-t md:border-t-0 md:border-l border-slate-100">
             <div>
                 <!-- Heading -->
                 <h2 class="text-2xl font-bold text-slate-900 tracking-tight">Selamat Datang</h2>
-                <p class="text-xs sm:text-sm text-slate-500 mt-1">Masuk sebagai evaluator iklan obat tradisional dan suplemen kesehatan</p>
+                <p class="text-xs font-semibold text-[#003B7A] mt-1">Unit Kerja Tim Iklan dan Penandaan</p>
+                <p class="text-xs text-slate-500 mt-0.5">Masuk sebagai evaluator iklan obat bahan alam dan suplemen kesehatan</p>
 
                 <!-- Session Alert -->
                 @if (session('status'))
@@ -137,15 +142,15 @@
                 <form method="POST" action="{{ route('login.post') }}" class="mt-6 space-y-4">
                     @csrf
 
-                    <!-- NIP / Email / Username -->
+                    <!-- NAMA (Username) -->
                     <div class="space-y-1.5">
-                        <label for="username" class="block text-xs font-semibold text-slate-700">
-                            Evaluator<span class="text-rose-500">*</span>
+                        <label for="username" class="block text-xs font-semibold text-slate-700 uppercase tracking-wide">
+                            NAMA <span class="text-rose-500">*</span>
                         </label>
                         <div class="relative">
                             <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                 </svg>
                             </div>
                             <input
@@ -155,30 +160,30 @@
                                 value="{{ old('username') }}"
                                 required
                                 autofocus
-                                placeholder="evaluator"
+                                placeholder="Masukkan Nama Anda"
                                 class="block w-full pl-10 pr-3.5 py-2.5 text-sm text-slate-900 rounded-xl border border-slate-200 bg-white placeholder:text-slate-400 focus:border-[#003B7A] focus:ring-2 focus:ring-[#003B7A]/15 focus:outline-none transition {{ $errors->has('username') ? 'border-rose-400 ring-2 ring-rose-500/10' : '' }}"
                             >
                         </div>
                     </div>
 
-                    <!-- Kata Sandi / Password with Show/Hide Toggle -->
+                    <!-- NIP (Password) with Show/Hide Toggle -->
                     <div class="space-y-1.5" x-data="{ show: false }">
                         <div class="flex items-center justify-between">
-                            <label for="password" class="block text-xs font-semibold text-slate-700">
-                                Kata Sandi / Password <span class="text-rose-500">*</span>
+                            <label for="password" class="block text-xs font-semibold text-slate-700 uppercase tracking-wide">
+                                NIP <span class="text-rose-500">*</span>
                             </label>
                             <button
                                 type="button"
                                 @click="showHelp = true"
                                 class="text-xs font-semibold text-[#003B7A] hover:text-[#008D43] transition cursor-pointer"
                             >
-                                Lupa sandi?
+                                Bantuan akses?
                             </button>
                         </div>
                         <div class="relative">
                             <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" />
                                 </svg>
                             </div>
                             <input
@@ -186,7 +191,7 @@
                                 name="password"
                                 id="password"
                                 required
-                                placeholder="••••••••"
+                                placeholder="Masukkan NIP Anda"
                                 class="block w-full pl-10 pr-10 py-2.5 text-sm text-slate-900 rounded-xl border border-slate-200 bg-white placeholder:text-slate-400 focus:border-[#003B7A] focus:ring-2 focus:ring-[#003B7A]/15 focus:outline-none transition"
                             >
                             <button
@@ -194,7 +199,7 @@
                                 @click="show = !show"
                                 class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 focus:outline-none transition cursor-pointer"
                                 tabindex="-1"
-                                :title="show ? 'Sembunyikan sandi' : 'Tampilkan sandi'"
+                                :title="show ? 'Sembunyikan NIP' : 'Tampilkan NIP'"
                             >
                                 <!-- Eye icon (when hidden) -->
                                 <svg x-show="!show" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">

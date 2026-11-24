@@ -15,7 +15,7 @@ return new class extends Migration
 
             // 18 Kolom Kode Angka (SmallInt) persis seperti sheet Data All
             $table->unsignedInteger('no')->nullable(); // Nomor urut resmi tahunan saat Final
-            $table->unsignedSmallInteger('upt')->nullable(); // Kode UPT 1-83
+            $table->unsignedSmallInteger('upt')->nullable(); // Kode UPT (Master Data UPT)
             $table->unsignedSmallInteger('periode_bulan')->nullable(); // 1-12
             $table->unsignedSmallInteger('periode_tahun')->nullable(); // 2020-2100
             $table->unsignedSmallInteger('jenis_produk')->nullable(); // 1 OT, 2 SK, 3 OK

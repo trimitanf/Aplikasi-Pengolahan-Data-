@@ -5,10 +5,10 @@ namespace Tests\Feature;
 use App\Models\DataIklan;
 use App\Models\DataMentah;
 use App\Models\Dataset;
-use App\Models\TargetIku;
-use App\Models\Upt;
 use App\Models\User;
 use App\Services\DashboardService;
+use Database\Seeders\MasterKodeSeeder;
+use Database\Seeders\TargetIkuSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -17,15 +17,17 @@ class DashboardTest extends TestCase
     use RefreshDatabase;
 
     protected User $evaluator;
+
     protected Dataset $dataset;
+
     protected DataMentah $dataMentah;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->seed(\Database\Seeders\MasterKodeSeeder::class);
-        $this->seed(\Database\Seeders\TargetIkuSeeder::class);
+        $this->seed(MasterKodeSeeder::class);
+        $this->seed(TargetIkuSeeder::class);
 
         $this->evaluator = User::create([
             'name' => 'Evaluator Dashboard',
@@ -71,27 +73,60 @@ class DashboardTest extends TestCase
         $response->assertSee('Total Pengawasan');
         $response->assertSee('Memenuhi (MK)');
         $response->assertSee('Tidak Memenuhi (TMK)');
-        $response->assertSee('Menunggu Evaluasi');
-        $response->assertSee('Data Final Terkunci');
-        $response->assertSee('Obat Bahan Alam (OBA)');
-        $response->assertSee('Suplemen Kesehatan (SK)');
+        $response->assertSee('Proporsi Evaluasi Kepatuhan');
+        $response->assertSee('IKU OBA');
+        $response->assertSee('IKU SK');
+        $response->assertSee('UPT DENGAN PELANGGARAN TMK TERTINGGI');
+        $response->assertSee('mkTmkPieChart');
+        $response->assertSee('topUptTmkChart');
         $response->assertSee('monthlyTrendChart');
         $response->assertSee('topTmkChart');
-        $response->assertSee('dimensionStackedChart');
-        $response->assertSee('Ringkasan Pencantuman', false);
+        $response->assertSee('dimAsalProdukChart');
+        $response->assertSee('dimKategoriMediaChart');
+        $response->assertSee('dimKategoriIklanChart');
+        $response->assertSee('dimPembuatIklanChart');
         $response->assertSee('Panduan Alur Sistem Pengolahan Data Iklan');
+        $response->assertSee('Panduan Alur');
+        $response->assertDontSee('Panduan Alur Sistem (User Guide)');
+        $response->assertSee('Semua Komoditi');
+        $response->assertSee('Obat Bahan Alam (OBA)');
+        $response->assertSee('Obat Kuasi (OK)');
+        $response->assertSee('Suplemen Kesehatan (SK)');
+        $response->assertSee('Tahun Pengawasan');
+        $response->assertSee('selectTahunPengawasan');
+        $response->assertSee('2026');
+        $response->assertSee('2020');
+
+        // Verify landscape report components and ensure analytical tables and signature are removed from dashboard
+        $response->assertSee('size: A4 landscape');
+        $response->assertDontSee('Matriks Tren Kepatuhan Pengawasan Bulanan');
+        $response->assertDontSee('Distribusi Kepatuhan Kategori Media Iklan (8 Kanal)');
+        $response->assertDontSee('Profil Kepatuhan 3 Karakteristik Iklan');
+        $response->assertDontSee('Catatan Analisis Eksekutif & Tindak Lanjut Pengawasan');
+        $response->assertDontSee('Penanggung Jawab / Tim Evaluator Pengawasan Iklan');
     }
 
     public function test_evaluator_can_apply_filters_on_dashboard(): void
     {
         $response = $this->actingAs($this->evaluator)->get(route('dashboard', [
             'tahun' => 2026,
-            'komoditi' => 'OBA',
+            'komoditi' => 'OT',
             'upt' => 1,
         ]));
 
         $response->assertOk();
         $response->assertSee('Dashboard Pengawasan Iklan OTSK');
+        $response->assertSee('Obat Bahan Alam (OBA)');
+
+        // Request kedua untuk menguji pengambilan metrik dari Cache (Cache Hit)
+        // Memastikan dropdown UPT tidak melempar "Attempt to read property 'kode' on string"
+        $cachedResponse = $this->actingAs($this->evaluator)->get(route('dashboard', [
+            'tahun' => 2026,
+            'komoditi' => 'OT',
+            'upt' => 1,
+        ]));
+        $cachedResponse->assertOk();
+        $cachedResponse->assertSee('Semua UPT (Nasional)');
     }
 
     public function test_dashboard_service_computes_accurate_metrics(): void
@@ -216,5 +251,64 @@ class DashboardTest extends TestCase
         $this->assertEquals(1, $metrics['nie_ecommerce']['sk']['total']);
         $this->assertEquals(0, $metrics['nie_ecommerce']['sk']['nie_ada']);
         $this->assertEquals(1, $metrics['nie_ecommerce']['sk']['nie_tidak_ada']);
+
+        // Year breakdown
+        $this->assertArrayHasKey('year_breakdown', $metrics);
+        $this->assertNotEmpty($metrics['year_breakdown']);
+        $year2026 = collect($metrics['year_breakdown'])->firstWhere('tahun', 2026);
+        $this->assertNotNull($year2026);
+        $this->assertEquals(3, $year2026['total_iklan_final']);
+    }
+
+    public function test_dashboard_and_rekap_ignore_soft_deleted_dataset_and_data_iklan(): void
+    {
+        // 1 Data Iklan Final di dataset aktif
+        DataIklan::create([
+            'dataset_id' => $this->dataset->id,
+            'data_mentah_id' => $this->dataMentah->id,
+            'evaluator_id' => $this->evaluator->id,
+            'no' => 1,
+            'upt' => 1,
+            'periode_bulan' => 7,
+            'periode_tahun' => 2026,
+            'jenis_produk' => 1,
+            'hasil_evaluasi' => 1,
+            'is_final' => true,
+        ]);
+
+        $service = app(DashboardService::class);
+        $rekapService = app(\App\Services\RekapService::class);
+
+        $metricsBefore = $service->computeMetrics(2026);
+        $rekapBefore = $rekapService->calculate(2026);
+
+        $this->assertEquals(1, $metricsBefore['kpi']['total_final']);
+        $this->assertEquals(1, $rekapBefore['oba']['total_pengawasan']['total']);
+
+        // Soft delete dataset
+        $this->dataset->delete();
+
+        // DataIklan di tabel otomatis ikut ter-soft-delete (deleted_at terisi)
+        $this->assertSoftDeleted('datasets', ['id' => $this->dataset->id]);
+        $this->assertSoftDeleted('data_iklan', ['dataset_id' => $this->dataset->id]);
+
+        // Dashboard dan Rekap harus mengabaikan data dari trash
+        $metricsAfter = $service->computeMetrics(2026);
+        $rekapAfter = $rekapService->calculate(2026);
+
+        $this->assertEquals(0, $metricsAfter['kpi']['total_final']);
+        $this->assertEquals(0, $metricsAfter['kpi']['total_pengawasan']);
+        $this->assertEquals(0, $rekapAfter['oba']['total_pengawasan']['total']);
+
+        // Restore dataset
+        $this->dataset->restore();
+        $this->assertNotSoftDeleted('datasets', ['id' => $this->dataset->id]);
+        $this->assertNotSoftDeleted('data_iklan', ['dataset_id' => $this->dataset->id]);
+
+        $metricsRestored = $service->computeMetrics(2026);
+        $rekapRestored = $rekapService->calculate(2026);
+
+        $this->assertEquals(1, $metricsRestored['kpi']['total_final']);
+        $this->assertEquals(1, $rekapRestored['oba']['total_pengawasan']['total']);
     }
 }

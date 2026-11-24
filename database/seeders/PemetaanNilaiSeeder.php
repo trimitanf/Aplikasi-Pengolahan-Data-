@@ -11,12 +11,23 @@ class PemetaanNilaiSeeder extends Seeder
     {
         $pemetaan = [
             // Jenis Produk (kolom_sumber: JENIS PRODUK)
+            ['grup' => 'jenis_produk', 'kolom_sumber' => 'JENIS PRODUK', 'nilai_sipt' => 'OBAT BAHAN ALAM', 'kode' => 1],
+            ['grup' => 'jenis_produk', 'kolom_sumber' => 'JENIS PRODUK', 'nilai_sipt' => 'OBAT BAHAN ALAM (OBA)', 'kode' => 1],
+            ['grup' => 'jenis_produk', 'kolom_sumber' => 'JENIS PRODUK', 'nilai_sipt' => 'OBA', 'kode' => 1],
+            ['grup' => 'jenis_produk', 'kolom_sumber' => 'JENIS PRODUK', 'nilai_sipt' => 'BAHAN ALAM', 'kode' => 1],
             ['grup' => 'jenis_produk', 'kolom_sumber' => 'JENIS PRODUK', 'nilai_sipt' => 'OBAT TRADISIONAL', 'kode' => 1],
+            ['grup' => 'jenis_produk', 'kolom_sumber' => 'JENIS PRODUK', 'nilai_sipt' => 'OBAT TRADISIONAL (OT)', 'kode' => 1],
             ['grup' => 'jenis_produk', 'kolom_sumber' => 'JENIS PRODUK', 'nilai_sipt' => 'OT', 'kode' => 1],
+            ['grup' => 'jenis_produk', 'kolom_sumber' => 'JENIS PRODUK', 'nilai_sipt' => 'TRADISIONAL', 'kode' => 1],
+            ['grup' => 'jenis_produk', 'kolom_sumber' => 'JENIS PRODUK', 'nilai_sipt' => 'JAMU', 'kode' => 1],
+            ['grup' => 'jenis_produk', 'kolom_sumber' => 'JENIS PRODUK', 'nilai_sipt' => 'HERBAL', 'kode' => 1],
+            ['grup' => 'jenis_produk', 'kolom_sumber' => 'JENIS PRODUK', 'nilai_sipt' => 'FITOFARMAKA', 'kode' => 1],
             ['grup' => 'jenis_produk', 'kolom_sumber' => 'JENIS PRODUK', 'nilai_sipt' => 'SUPLEMEN KESEHATAN', 'kode' => 2],
             ['grup' => 'jenis_produk', 'kolom_sumber' => 'JENIS PRODUK', 'nilai_sipt' => 'SK', 'kode' => 2],
+            ['grup' => 'jenis_produk', 'kolom_sumber' => 'JENIS PRODUK', 'nilai_sipt' => 'SUPLEMEN', 'kode' => 2],
             ['grup' => 'jenis_produk', 'kolom_sumber' => 'JENIS PRODUK', 'nilai_sipt' => 'OBAT KUASI', 'kode' => 3],
             ['grup' => 'jenis_produk', 'kolom_sumber' => 'JENIS PRODUK', 'nilai_sipt' => 'OK', 'kode' => 3],
+            ['grup' => 'jenis_produk', 'kolom_sumber' => 'JENIS PRODUK', 'nilai_sipt' => 'KUASI', 'kode' => 3],
 
             // Asal Produk (kolom_sumber: ASAL PRODUK)
             ['grup' => 'asal_produk', 'kolom_sumber' => 'ASAL PRODUK', 'nilai_sipt' => 'LOKAL', 'kode' => 1],
@@ -53,6 +64,10 @@ class PemetaanNilaiSeeder extends Seeder
             ['grup' => 'pembuat_iklan', 'kolom_sumber' => 'PEMBUAT IKLAN', 'nilai_sipt' => 'PELAKU USAHA', 'kode' => 1],
             ['grup' => 'pembuat_iklan', 'kolom_sumber' => 'PEMBUAT IKLAN', 'nilai_sipt' => 'PERSEORANGAN', 'kode' => 2],
             ['grup' => 'pembuat_iklan', 'kolom_sumber' => 'PEMBUAT IKLAN', 'nilai_sipt' => 'PERORANGAN', 'kode' => 2],
+
+            // Kesesuaian Evaluasi (kolom_sumber: KESESUAIAN HASIL EVALUASI)
+            ['grup' => 'kesesuaian_evaluasi', 'kolom_sumber' => 'KESESUAIAN HASIL EVALUASI', 'nilai_sipt' => 'SESUAI', 'kode' => 1],
+            ['grup' => 'kesesuaian_evaluasi', 'kolom_sumber' => 'KESESUAIAN HASIL EVALUASI', 'nilai_sipt' => 'TIDAK SESUAI', 'kode' => 2],
 
             // Nama Media (kolom_sumber: TEMPAT PENGAMBILAN IKLAN)
             ['grup' => 'nama_media', 'kolom_sumber' => 'TEMPAT PENGAMBILAN IKLAN', 'nilai_sipt' => 'SHOPEE', 'kode' => 1],

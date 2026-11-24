@@ -25,7 +25,7 @@ class MasterKodeSeeder extends Seeder
                 12 => 'DESEMBER',
             ],
             'jenis_produk' => [
-                1 => 'OT',
+                1 => 'OBA',
                 2 => 'SK',
                 3 => 'OK',
             ],

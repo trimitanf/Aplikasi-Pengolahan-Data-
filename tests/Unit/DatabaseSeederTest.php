@@ -54,7 +54,7 @@ class DatabaseSeederTest extends TestCase
         }
 
         // Cek kode khusus
-        $this->assertEquals('OT', MasterKode::where('grup', 'jenis_produk')->where('kode', 1)->value('nama'));
+        $this->assertEquals('OBA', MasterKode::where('grup', 'jenis_produk')->where('kode', 1)->value('nama'));
         $this->assertEquals('SK', MasterKode::where('grup', 'jenis_produk')->where('kode', 2)->value('nama'));
         $this->assertEquals('OK', MasterKode::where('grup', 'jenis_produk')->where('kode', 3)->value('nama'));
 
@@ -76,14 +76,18 @@ class DatabaseSeederTest extends TestCase
         $this->assertEquals(83.00, $sk->target);
     }
 
-    public function test_seeder_membuat_satu_akun_evaluator(): void
+    public function test_seeder_membuat_akun_admin_dan_enam_evaluator(): void
     {
         $this->seed(DatabaseSeeder::class);
 
-        $this->assertEquals(1, User::count());
-        $user = User::first();
-        $this->assertEquals('evaluator', $user->username);
-        $this->assertEquals('evaluator', $user->role);
-        $this->assertTrue($user->is_active);
+        $this->assertEquals(7, User::count());
+        
+        $admin = User::where('role', 'admin')->first();
+        $this->assertNotNull($admin);
+        $this->assertEquals('admin', $admin->username);
+        $this->assertTrue($admin->isAdmin());
+
+        $evaluators = User::where('role', 'evaluator')->get();
+        $this->assertCount(6, $evaluators);
     }
 }

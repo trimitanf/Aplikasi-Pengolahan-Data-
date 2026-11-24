@@ -24,8 +24,30 @@ class AuthTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertSee('Sistem Informasi Pengolahan Data Iklan');
+        $response->assertSee('Unit Kerja Tim Iklan dan Penandaan');
+        $response->assertSee('NAMA');
+        $response->assertSee('NIP');
         $response->assertSee('Username');
         $response->assertSee('Password');
+    }
+
+    public function test_evaluator_dapat_login_dengan_nama_lengkap_dan_nip(): void
+    {
+        User::create([
+            'name' => 'Mita Evaluator',
+            'username' => 'mita',
+            'password' => Hash::make('199801012024012001'),
+            'role' => 'evaluator',
+            'is_active' => true,
+        ]);
+
+        $response = $this->post('/login', [
+            'username' => 'Mita Evaluator',
+            'password' => '199801012024012001',
+        ]);
+
+        $response->assertRedirect('/dashboard');
+        $this->assertAuthenticated();
     }
 
     public function test_evaluator_dapat_login_dengan_username_dan_password(): void

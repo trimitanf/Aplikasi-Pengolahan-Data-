@@ -1,7 +1,7 @@
-@import '@fontsource/poppins/400.css';
-@import '@fontsource/poppins/500.css';
-@import '@fontsource/poppins/600.css';
-@import '@fontsource/poppins/700.css';
+@import '@fontsource/poppins/latin-400.css';
+@import '@fontsource/poppins/latin-500.css';
+@import '@fontsource/poppins/latin-600.css';
+@import '@fontsource/poppins/latin-700.css';
 @import './theme.css';
 @import 'tailwindcss';
 
@@ -31,4 +31,14 @@ body {
     font-family: var(--font-sans);
     background-color: var(--bg);
     color: var(--text);
+}
+
+.break-all {
+    word-break: break-all !important;
+    overflow-wrap: anywhere !important;
+}
+
+.break-words {
+    overflow-wrap: anywhere !important;
+    word-break: break-word !important;
 }

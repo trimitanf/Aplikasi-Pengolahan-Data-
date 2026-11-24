@@ -9,13 +9,21 @@ class UploadDatasetRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return auth()->check() && auth()->user()->isAdmin();
+    }
+
+    protected function prepareForValidation(): void
+    {
+        if ($this->has('komoditi')) {
+            $kom = strtoupper(trim((string) $this->input('komoditi')));
+            $this->merge(['komoditi' => $kom]);
+        }
     }
 
     public function rules(): array
     {
         return [
-            'komoditi' => ['required', 'string', 'in:OT,OK,SK'],
+            'komoditi' => ['required', 'string', 'in:OBA,OK,SK,OT'],
             'periode_tahun' => ['required', 'integer', 'min:2020', 'max:2100'],
             'periode_bulan' => ['required', 'integer', 'min:1', 'max:12'],
             'file' => [
@@ -35,24 +43,31 @@ class UploadDatasetRequest extends FormRequest
     public function withValidator($validator): void
     {
         $validator->after(function ($validator) {
-            if ($this->has(['komoditi', 'periode_tahun', 'periode_bulan'])) {
-                $exists = Dataset::where('komoditi', $this->input('komoditi'))
-                    ->where('periode_tahun', $this->input('periode_tahun'))
-                    ->where('periode_bulan', $this->input('periode_bulan'))
-                    ->where('status', 'Final')
-                    ->exists();
+            if ($this->hasFile('file') && $this->has(['komoditi', 'periode_tahun'])) {
+                $file = $this->file('file');
+                $namaFile = $file?->getClientOriginalName();
+                $komoditiInput = $this->input('komoditi');
 
-                if ($exists) {
-                    $bulanMap = [
-                        1 => 'Januari', 2 => 'Februari', 3 => 'Maret', 4 => 'April',
-                        5 => 'Mei', 6 => 'Juni', 7 => 'Juli', 8 => 'Agustus',
-                        9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Desember',
-                    ];
-                    $namaBulan = $bulanMap[(int)$this->input('periode_bulan')] ?? $this->input('periode_bulan');
-                    $validator->errors()->add(
-                        'komoditi',
-                        "Dataset Final untuk komoditi {$this->input('komoditi')} periode {$namaBulan} {$this->input('periode_tahun')} sudah ada. Upload untuk periode yang sudah Final ditolak."
-                    );
+                if ($namaFile) {
+                    // Cegah pengunggahan berkas dengan nama identik yang sudah berstatus Final
+                    $existsSameFile = Dataset::where(function ($q) use ($komoditiInput) {
+                            if (in_array($komoditiInput, ['OBA', 'OT'])) {
+                                $q->whereIn('komoditi', ['OBA', 'OT']);
+                            } else {
+                                $q->where('komoditi', $komoditiInput);
+                            }
+                        })
+                        ->where('periode_tahun', $this->input('periode_tahun'))
+                        ->where('nama_file_asli', $namaFile)
+                        ->where('status', 'Final')
+                        ->exists();
+
+                    if ($existsSameFile) {
+                        $validator->errors()->add(
+                            'file',
+                            "Berkas dengan nama '{$namaFile}' sudah pernah diunggah dan berstatus Final. Upload ulang berkas yang sama ditolak untuk menghindari duplikasi data."
+                        );
+                    }
                 }
             }
         });
@@ -62,7 +77,7 @@ class UploadDatasetRequest extends FormRequest
     {
         return [
             'komoditi.required' => 'Komoditi wajib dipilih.',
-            'komoditi.in' => 'Pilihan komoditi tidak valid (hanya OT, OK, atau SK).',
+            'komoditi.in' => 'Pilihan komoditi tidak valid (hanya Obat Bahan Alam [OBA], Obat Kuasi [OK], atau Suplemen Kesehatan [SK]).',
             'periode_tahun.required' => 'Tahun periode wajib diisi.',
             'periode_tahun.integer' => 'Tahun harus berupa bilangan bulat.',
             'periode_bulan.required' => 'Bulan periode wajib dipilih.',

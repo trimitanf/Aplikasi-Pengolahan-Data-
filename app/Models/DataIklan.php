@@ -5,16 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class DataIklan extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'data_iklan';
 
     protected $fillable = [
         'dataset_id',
         'data_mentah_id',
+        'evaluator_id',
         'no',
         'upt',
         'periode_bulan',
@@ -76,10 +78,14 @@ class DataIklan extends Model
         return $this->belongsTo(DataMentah::class);
     }
 
+    public function evaluator(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'evaluator_id');
+    }
+
     public function isManualComplete(): bool
     {
-        return ! is_null($this->kesesuaian_evaluasi)
-            && ! is_null($this->kualitas_laporan)
+        return ! is_null($this->kualitas_laporan)
             && ! is_null($this->ketepatan_waktu);
     }
 

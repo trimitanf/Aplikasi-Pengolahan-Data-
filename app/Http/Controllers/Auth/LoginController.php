@@ -14,6 +14,10 @@ class LoginController extends Controller
     public function showLoginForm(): View|RedirectResponse
     {
         if (Auth::check()) {
+            if (Auth::user()->isEvaluatorPenandaan()) {
+                return redirect()->route('penandaan.dashboard');
+            }
+
             return redirect()->route('dashboard');
         }
 
@@ -26,7 +30,17 @@ class LoginController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard'));
+        $user = Auth::user();
+        if ($user) {
+            $user->update(['last_login_at' => now()]);
+            session(['login_time' => now()]);
+        }
+
+        $defaultRoute = ($user && $user->isEvaluatorPenandaan())
+            ? route('penandaan.dashboard')
+            : route('dashboard');
+
+        return redirect()->intended($defaultRoute);
     }
 
     public function logout(Request $request): RedirectResponse

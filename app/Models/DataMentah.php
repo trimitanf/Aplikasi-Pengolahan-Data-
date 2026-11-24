@@ -5,15 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class DataMentah extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'data_mentah';
 
     protected $fillable = [
         'dataset_id',
+        'evaluator_id',
         'nomor_baris',
         'no',
         'upt',
@@ -41,17 +44,44 @@ class DataMentah extends Model
         'kategori_tmk',
         'rincian_tmk',
         'tindak_lanjut',
+        'kesesuaian_evaluasi',
+        'kualitas_laporan',
+        'ketepatan_waktu',
     ];
 
     protected function casts(): array
     {
         return [
             'nomor_baris' => 'integer',
+            'kesesuaian_evaluasi' => 'integer',
+            'kualitas_laporan' => 'integer',
+            'ketepatan_waktu' => 'integer',
         ];
     }
 
     public function dataset(): BelongsTo
     {
         return $this->belongsTo(Dataset::class);
+    }
+
+    public function evaluator(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'evaluator_id');
+    }
+
+    public function dataIklan(): HasOne
+    {
+        return $this->hasOne(DataIklan::class, 'data_mentah_id');
+    }
+
+    public function isManualComplete(): bool
+    {
+        return ! is_null($this->kualitas_laporan)
+            && ! is_null($this->ketepatan_waktu);
+    }
+
+    public function isMenungguEvaluasi(): bool
+    {
+        return empty($this->kesimpulan_pusat) || $this->kesimpulan_pusat === '-';
     }
 }

@@ -9,3 +9,10 @@
 /.github export-ignore
 CHANGELOG.md export-ignore
 .styleci.yml export-ignore
+.env export-ignore
+.env.* export-ignore
+database/database.sqlite export-ignore
+database/database.sqlite-shm export-ignore
+database/database.sqlite-wal export-ignore
+.phpunit.result.cache export-ignore
+.phpunit.cache export-ignore
