@@ -92,8 +92,8 @@ class UpdateManualEvaluationAction
 
         $validatedNilai = in_array((int) $nilai, [1, 2], true) ? (int) $nilai : null;
         $assignedEvaluatorId = $item->evaluator_id;
-        if ($assignedEvaluatorId === null && $user?->isEvaluator() && $validatedNilai !== null) {
-            $assignedEvaluatorId = $user->id;
+        if ($assignedEvaluatorId === null && $validatedNilai !== null) {
+            $assignedEvaluatorId = $user?->id ?? $dataset->uploaded_by;
         }
 
         $waktu = now();
@@ -199,8 +199,8 @@ class UpdateManualEvaluationAction
                     'updated_at' => $waktu,
                 ]);
 
-                if ($nilaiVal !== null && $user && $user->isEvaluator()) {
-                    $autoEvaluatorId = $user->id;
+                $autoEvaluatorId = $user?->id ?? $dataset->uploaded_by;
+                if ($nilaiVal !== null && $autoEvaluatorId) {
                     DataMentah::whereIn('id', $updatedIds)
                         ->whereNull('evaluator_id')
                         ->update(['evaluator_id' => $autoEvaluatorId, 'updated_at' => $waktu]);

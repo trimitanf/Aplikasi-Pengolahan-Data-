@@ -311,4 +311,91 @@ class DashboardTest extends TestCase
         $this->assertEquals(1, $metricsRestored['kpi']['total_final']);
         $this->assertEquals(1, $rekapRestored['oba']['total_pengawasan']['total']);
     }
+
+    public function test_evaluated_rows_without_explicit_evaluator_are_final_and_counted_in_dashboard(): void
+    {
+        $semarangDataset = Dataset::create([
+            'nama_file_asli' => 'SIPT_OK_SEMARANG_2026.xlsx',
+            'komoditi' => 'OK',
+            'periode_tahun' => 2026,
+            'periode_bulan' => 7,
+            'status' => 'Valid',
+            'path_file' => 'datasets/semarang.xlsx',
+            'jumlah_baris' => 2,
+            'uploaded_by' => $this->evaluator->id,
+            'uploaded_at' => now(),
+        ]);
+
+        $raw1 = DataMentah::create([
+            'dataset_id' => $semarangDataset->id,
+            'nomor_baris' => 1,
+            'no' => '1',
+            'upt' => 'BBPOM di Semarang',
+            'jenis_produk' => '3',
+            'hasil_penilaian_iklan_upt' => 'MK',
+            'kesimpulan_pusat' => 'MEMENUHI KETENTUAN',
+            'kesesuaian_evaluasi' => 1,
+            'kualitas_laporan' => 1,
+            'ketepatan_waktu' => 1,
+            'evaluator_id' => $this->evaluator->id,
+        ]);
+
+        $raw2 = DataMentah::create([
+            'dataset_id' => $semarangDataset->id,
+            'nomor_baris' => 2,
+            'no' => '2',
+            'upt' => 'BBPOM di Semarang',
+            'jenis_produk' => '3',
+            'hasil_penilaian_iklan_upt' => 'MK',
+            'kesimpulan_pusat' => 'TIDAK MEMENUHI KETENTUAN',
+            'kesesuaian_evaluasi' => 2,
+            'kualitas_laporan' => 1,
+            'ketepatan_waktu' => 1,
+            'evaluator_id' => null, // Evaluator null (misal diisi oleh Admin atau belum dipilih)
+        ]);
+
+        DataIklan::create([
+            'dataset_id' => $semarangDataset->id,
+            'data_mentah_id' => $raw1->id,
+            'evaluator_id' => $this->evaluator->id,
+            'no' => 1,
+            'upt' => 29, // Semarang
+            'periode_bulan' => 7,
+            'periode_tahun' => 2026,
+            'jenis_produk' => 3,
+            'hasil_evaluasi' => 1, // MK
+            'kualitas_laporan' => 1,
+            'ketepatan_waktu' => 1,
+            'is_final' => true,
+        ]);
+
+        DataIklan::create([
+            'dataset_id' => $semarangDataset->id,
+            'data_mentah_id' => $raw2->id,
+            'evaluator_id' => null,
+            'no' => 2,
+            'upt' => 29, // Semarang
+            'periode_bulan' => 7,
+            'periode_tahun' => 2026,
+            'jenis_produk' => 3,
+            'hasil_evaluasi' => 2, // TMK
+            'kualitas_laporan' => 1,
+            'ketepatan_waktu' => 1,
+            'is_final' => false,
+        ]);
+
+        $standardizationService = app(\App\Services\Iklan\StandardizationService::class);
+        $standardizationService->syncEvaluatedRows($semarangDataset);
+
+        $metrics = app(DashboardService::class)->computeMetrics(2026, 'OK', 29);
+
+        // Kedua baris dari Semarang harus terhitung di dashboard: total 2, MK 1, TMK 1
+        $this->assertEquals(2, $metrics['kpi']['total_pengawasan']);
+        $this->assertEquals(1, $metrics['kpi']['mk']);
+        $this->assertEquals(1, $metrics['kpi']['tmk']);
+
+        $iklan2 = DataIklan::where('data_mentah_id', $raw2->id)->first();
+        $this->assertTrue($iklan2->is_final);
+        $this->assertEquals($this->evaluator->id, $iklan2->evaluator_id);
+    }
 }

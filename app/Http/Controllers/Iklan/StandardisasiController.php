@@ -322,6 +322,8 @@ class StandardisasiController extends Controller
             $item->dataMentah->update($mentahUpdates);
         }
 
+        $this->standardizationService->syncEvaluatedRows($dataset);
+
         $waktu = now();
         DashboardService::bumpCacheVersion();
 
@@ -369,6 +371,9 @@ class StandardisasiController extends Controller
         $updatedCount = count($updatedIds);
 
         if ($updatedCount > 0) {
+            $userId = auth()->id();
+            $autoEvalId = $userId ?? $dataset->uploaded_by;
+
             DataIklan::whereIn('id', $updatedIds)->update([
                 $validated['kolom'] => $validated['nilai'],
             ]);
@@ -378,7 +383,17 @@ class StandardisasiController extends Controller
                 \App\Models\DataMentah::whereIn('id', $rawIds)->update([
                     $validated['kolom'] => $validated['nilai'],
                 ]);
+                if ($autoEvalId) {
+                    \App\Models\DataMentah::whereIn('id', $rawIds)
+                        ->whereNull('evaluator_id')
+                        ->update(['evaluator_id' => $autoEvalId]);
+                    DataIklan::whereIn('id', $updatedIds)
+                        ->whereNull('evaluator_id')
+                        ->update(['evaluator_id' => $autoEvalId]);
+                }
             }
+
+            $this->standardizationService->syncEvaluatedRows($dataset);
         }
 
         DashboardService::bumpCacheVersion();

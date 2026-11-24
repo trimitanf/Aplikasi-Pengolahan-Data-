@@ -68,16 +68,17 @@ class StandardizationService
                 $standardized['ketepatan_waktu'] = $raw->ketepatan_waktu ?? $existingKetepatan[$raw->id] ?? null;
 
                 
-                $isRowEvaluated = ! is_null($raw->evaluator_id)
-                    && ! is_null($standardized['kualitas_laporan'])
+                $isRowEvaluated = ! is_null($standardized['kualitas_laporan'])
                     && ! is_null($standardized['ketepatan_waktu']);
+
+                $evaluatorId = $raw->evaluator_id ?? ($isRowEvaluated ? $dataset->uploaded_by : null);
 
                 $standardized['no'] = (int) ($raw->nomor_baris ?: ($index + 1));
                 $standardized['is_final'] = $isRowEvaluated;
 
                 $standardized['dataset_id'] = $dataset->id;
                 $standardized['data_mentah_id'] = $raw->id;
-                $standardized['evaluator_id'] = $raw->evaluator_id;
+                $standardized['evaluator_id'] = $evaluatorId;
                 $standardized['created_at'] = $now;
                 $standardized['updated_at'] = $now;
                 $standardized['catatan_tidak_terpetakan'] = ! empty($standardized['catatan_tidak_terpetakan'])
@@ -154,19 +155,34 @@ class StandardizationService
             $evaluatedMentah = DataMentah::where('dataset_id', $dataset->id)
                 ->get(['id', 'evaluator_id', 'kualitas_laporan', 'ketepatan_waktu', 'kesesuaian_evaluasi']);
             foreach ($evaluatedMentah as $dm) {
+                $evaluatorId = $dm->evaluator_id;
+                if ($evaluatorId === null && $dm->kualitas_laporan !== null && $dm->ketepatan_waktu !== null) {
+                    $evaluatorId = $dataset->uploaded_by;
+                    if ($evaluatorId) {
+                        $dm->update(['evaluator_id' => $evaluatorId]);
+                    }
+                }
                 DataIklan::where('data_mentah_id', $dm->id)->update([
-                    'evaluator_id' => $dm->evaluator_id,
+                    'evaluator_id' => $evaluatorId,
                     'kualitas_laporan' => $dm->kualitas_laporan,
                     'ketepatan_waktu' => $dm->ketepatan_waktu,
                     'kesesuaian_evaluasi' => $dm->kesesuaian_evaluasi,
                 ]);
             }
         } else {
+            if ($dataset->uploaded_by) {
+                DataMentah::where('dataset_id', $dataset->id)
+                    ->whereNull('evaluator_id')
+                    ->whereNotNull('kualitas_laporan')
+                    ->whereNotNull('ketepatan_waktu')
+                    ->update(['evaluator_id' => $dataset->uploaded_by]);
+            }
+
             DB::table('data_iklan as di')
                 ->join('data_mentah as dm', 'di.data_mentah_id', '=', 'dm.id')
                 ->where('di.dataset_id', $dataset->id)
                 ->update([
-                    'di.evaluator_id' => DB::raw('dm.evaluator_id'),
+                    'di.evaluator_id' => DB::raw('COALESCE(dm.evaluator_id, ' . ((int) ($dataset->uploaded_by ?? 0)) . ')'),
                     'di.kualitas_laporan' => DB::raw('dm.kualitas_laporan'),
                     'di.ketepatan_waktu' => DB::raw('dm.ketepatan_waktu'),
                     'di.kesesuaian_evaluasi' => DB::raw('dm.kesesuaian_evaluasi'),
@@ -174,7 +190,6 @@ class StandardizationService
         }
 
         DataIklan::where('dataset_id', $dataset->id)
-            ->whereNotNull('evaluator_id')
             ->whereNotNull('kualitas_laporan')
             ->whereNotNull('ketepatan_waktu')
             ->where('is_final', false)
@@ -182,8 +197,7 @@ class StandardizationService
 
         DataIklan::where('dataset_id', $dataset->id)
             ->where(function ($q) {
-                $q->whereNull('evaluator_id')
-                    ->orWhereNull('kualitas_laporan')
+                $q->whereNull('kualitas_laporan')
                     ->orWhereNull('ketepatan_waktu');
             })
             ->where('is_final', true)
